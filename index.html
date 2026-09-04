@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multi Tools Downloader</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ===== BACKGROUND VIDEO ===== */
+        .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .bg-video video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .bg-video::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.60);
+        }
+
+        /* ===== UNMUTE BUTTON ===== */
+        .unmute-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.6);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 12px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        .unmute-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        /* ===== HAMBURGER MENU BUTTON ===== */
+        .menu-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            font-size: 24px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .menu-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.05);
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -320px;
+            width: 300px;
+            height: 100%;
+            z-index: 99;
+            background: rgba(10, 10, 30, 0.92);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 70px 20px 30px;
+            transition: left 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            overflow-y: auto;
+        }
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .sidebar .logo span {
+            background: linear-gradient(135deg, #ff0050, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sidebar .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 18px;
+            border-radius: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 4px;
+            border: 1px solid transparent;
+        }
+        .sidebar .menu-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+        .sidebar .menu-item.active {
+            background: rgba(255, 0, 80, 0.12);
+            border-color: rgba(255, 0, 80, 0.2);
+            color: #fff;
+        }
+        .sidebar .menu-item .icon {
+            font-size: 20px;
+            width: 32px;
+            text-align: center;
+        }
+        .sidebar .menu-item .label {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .sidebar .close-sidebar {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 22px;
+            cursor: pointer;
+            padding: 8px;
+        }
+        .sidebar .close-sidebar:hover {
+            color: #fff;
+        }
+
+        /* ===== OVERLAY ===== */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 98;
+            display: none;
+        }
+        .overlay.show {
+            display: block;
+        }
+
+        /* ===== CONTAINER ===== */
+        .container {
+            position: relative;
+            z-index: 1;
+            background: rgba(10, 10, 30, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            padding: 30px 25px;
+            max-width: 560px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+            animation: containerIn 0.6s ease;
+        }
+        @keyframes containerIn {
+            0% { opacity: 0; transform: translateY(20px) scale(0.96); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* ===== TOOL CONTENT ===== */
+        .tool-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        .tool-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header .icon {
+            font-size: 36px;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+        .header h1 span {
+            background: linear-gradient(135deg, #ff0050, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header p {
+            color: rgba(255, 255, 255, 0.35);
+            font-size: 12px;
+        }
+
+        /* ===== INPUT ===== */
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .input-group input {
+            flex: 1;
+            padding: 13px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-size: 13px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .input-group input:focus {
+            border-color: #ff0050;
+            background: rgba(255, 255, 255, 0.08);
+        }
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-download {
+            padding: 13px 20px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #ff0050, #ff6b6b);
+            color: white;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 0, 80, 0.35);
+        }
+        .btn-download:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-music {
+            background: linear-gradient(135deg, #06b6d4, #3b82f6) !important;
+        }
+        .btn-music:hover {
+            box-shadow: 0 8px 30px rgba(6, 182, 212, 0.35) !important;
+        }
+
+        .btn-group-top {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .btn-group-top .btn-download {
+            flex: 1;
+        }
+
+        /* ===== LOADING ===== */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 15px 0;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        .loading.show { display: block; }
+        .spinner-ring {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.06);
+            border-top: 3px solid #ff0050;
+            border-right: 3px solid #ff6b6b;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 8px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ===== ERROR ===== */
+        .error-msg {
+            color: #f87171;
+            font-size: 13px;
+            padding: 10px 14px;
+            background: rgba(239, 68, 68, 0.08);
+            border-radius: 10px;
+            border-left: 3px solid #ef4444;
+            display: none;
+            margin-top: 10px;
+        }
+        .error-msg.show { display: block; }
+
+        /* ===== RESULT ===== */
+        .result-container {
+            margin-top: 16px;
+            border-radius: 14px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            display: none;
+            animation: resultIn 0.4s ease;
+        }
+        .result-container.show { display: block; }
+        @keyframes resultIn {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-container .preview {
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+            background: rgba(0, 0, 0, 0.4);
+            max-height: 320px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .result-container .preview img,
+        .result-container .preview video {
+            max-width: 100%;
+            max-height: 320px;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+        .result-container .title {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .result-container .info {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 11px;
+            margin-bottom: 8px;
+        }
+        .result-container .stats {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+        .result-container .stats span {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 10px;
+            border-radius: 20px;
+        }
+        .result-container .btn-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .result-container .btn-save {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 9px 16px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #ff0050, #ff6b6b);
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .result-container .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 0, 80, 0.3);
+        }
+        .btn-save-music {
+            background: linear-gradient(135deg, #06b6d4, #3b82f6) !important;
+        }
+
+        /* ===== CEK KONTOL ===== */
+        .result-box {
+            margin-top: 16px;
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: #fff;
+            font-size: 14px;
+            line-height: 1.8;
+            display: none;
+        }
+        .result-box.show { display: block; }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            margin-top: 18px;
+            color: rgba(255, 255, 255, 0.10);
+            font-size: 10px;
+        }
+        .footer span {
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 520px) {
+            .container { padding: 18px; }
+            .input-group { flex-direction: column; }
+            .btn-download { width: 100%; justify-content: center; }
+            .btn-group-top { flex-direction: column; }
+            .result-container .btn-group { flex-direction: column; }
+            .result-container .btn-save { width: 100%; justify-content: center; }
+            .sidebar { width: 280px; left: -300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== BACKGROUND VIDEO ===== -->
+    <div class="bg-video">
+        <video autoplay muted loop playsinline id="bgVideo">
+            <source src="https://files.catbox.moe/klt1db.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <!-- ===== UNMUTE ===== -->
+    <button class="unmute-btn" onclick="toggleMute()">🔇 Unmute</button>
+
+    <!-- ===== HAMBURGER MENU ===== -->
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+
+    <!-- ===== OVERLAY ===== -->
+    <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+    <!-- ===== SIDEBAR ===== -->
+    <div class="sidebar" id="sidebar">
+        <button class="close-sidebar" onclick="closeSidebar()">✕</button>
+        <div class="logo">🎯 <span>Multi Tools</span></div>
+
+        <div class="menu-item active" data-tool="tiktok" onclick="switchTool('tiktok')">
+            <span class="icon">🎵</span>
+            <span class="label">TikTok Downloader</span>
+        </div>
+        <div class="menu-item" data-tool="instagram" onclick="switchTool('instagram')">
+            <span class="icon">📸</span>
+            <span class="label">Instagram Downloader</span>
+        </div>
+        <div class="menu-item" data-tool="youtube" onclick="switchTool('youtube')">
+            <span class="icon">▶️</span>
+            <span class="label">YouTube Downloader</span>
+        </div>
+        <div class="menu-item" data-tool="cekkontol" onclick="switchTool('cekkontol')">
+            <span class="icon">🍆</span>
+            <span class="label">Cek Kontol</span>
+        </div>
+    </div>
+
+    <!-- ===== MAIN CONTAINER ===== -->
+    <div class="container">
+
+        <!-- ===== TIKTOK ===== -->
+        <div class="tool-content active" id="tool-tiktok">
+            <div class="header">
+                <span class="icon">🎵</span>
+                <h1><span>TikTok</span> Downloader</h1>
+                <p>Download video &amp; audio tanpa watermark</p>
+            </div>
+            <div class="input-group">
+                <input type="text" id="ttUrl" placeholder="🔗 Masukkan URL TikTok..." />
+            </div>
+            <!-- ===== TOMBOL DOWNLOAD VIDEO FULL WIDTH (AUDIO DIHAPUS) ===== -->
+            <button class="btn-download" id="ttDownloadBtn" style="width:100%;">⬇ Download Video</button>
+            <div class="loading" id="ttLoading"><div class="spinner-ring"></div><div style="font-size:13px;">Memproses<span>.</span><span>.</span><span>.</span></div></div>
+            <div class="error-msg" id="ttError"></div>
+            <div class="result-container" id="ttResult">
+                <div class="preview" id="ttPreview"></div>
+                <div class="title" id="ttTitle"></div>
+                <div class="info" id="ttInfo"></div>
+                <div class="stats" id="ttStats"></div>
+                <div class="btn-group">
+                    <a href="#" class="btn-save btn-save-music" id="ttMusicSaveBtn" download>🎵 Download Audio</a>
+                    <a href="#" class="btn-save" id="ttSaveBtn" download>💾 Download Video</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== INSTAGRAM ===== -->
+        <div class="tool-content" id="tool-instagram">
+            <div class="header">
+                <span class="icon">📸</span>
+                <h1><span>Instagram</span> Downloader</h1>
+                <p>Download video &amp; foto dari Instagram</p>
+            </div>
+            <div class="input-group">
+                <input type="text" id="igUrl" placeholder="🔗 Masukkan URL Instagram..." />
+            </div>
+            <button class="btn-download" id="igDownloadBtn" style="width:100%;">⬇ Download</button>
+            <div class="loading" id="igLoading"><div class="spinner-ring"></div><div style="font-size:13px;">Memproses<span>.</span><span>.</span><span>.</span></div></div>
+            <div class="error-msg" id="igError"></div>
+            <div class="result-container" id="igResult">
+                <div class="preview" id="igPreview"></div>
+                <div class="title" id="igTitle"></div>
+                <div class="info" id="igInfo"></div>
+                <div class="btn-group">
+                    <a href="#" class="btn-save" id="igSaveBtn" download>💾 Download</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== YOUTUBE ===== -->
+        <div class="tool-content" id="tool-youtube">
+            <div class="header">
+                <span class="icon">▶️</span>
+                <h1><span>YouTube</span> Downloader</h1>
+                <p>Download video &amp; audio dari YouTube</p>
+            </div>
+            <div class="input-group">
+                <input type="text" id="ytUrl" placeholder="🔗 Masukkan URL YouTube..." />
+            </div>
+            <div class="btn-group-top">
+                <button class="btn-download btn-music" id="ytMusicBtn">🎵 Download Audio</button>
+                <button class="btn-download" id="ytVideoBtn">⬇ Download Video</button>
+            </div>
+            <div class="loading" id="ytLoading"><div class="spinner-ring"></div><div style="font-size:13px;">Memproses<span>.</span><span>.</span><span>.</span></div></div>
+            <div class="error-msg" id="ytError"></div>
+            <div class="result-container" id="ytResult">
+                <div class="preview" id="ytPreview"></div>
+                <div class="title" id="ytTitle"></div>
+                <div class="info" id="ytInfo"></div>
+                <div class="btn-group">
+                    <a href="#" class="btn-save btn-save-music" id="ytMusicSaveBtn" download>🎵 Download Audio</a>
+                    <a href="#" class="btn-save" id="ytVideoSaveBtn" download>💾 Download Video</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== CEK KONTOL ===== -->
+        <div class="tool-content" id="tool-cekkontol">
+            <div class="header">
+                <span class="icon">🍆</span>
+                <h1><span>Cek</span> Kontol</h1>
+                <p>Cek detail kontol seseorang</p>
+            </div>
+            <div class="input-group">
+                <input type="text" id="ckUrl" placeholder="🔗 Masukkan Nama..." />
+            </div>
+            <button class="btn-download" id="ckDownloadBtn" style="width:100%;">🔍 Cek</button>
+            <div class="result-box" id="ckResult"></div>
+        </div>
+
+        <div class="footer">
+            © 2026 • <span>Multi Tools</span> • by xs0ciety
+        </div>
+    </div>
+
+    <!-- ===== AXIOS ===== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.0/axios.min.js">
+    </script>
+
+    <script>
+        // ============================================================
+        // SIDEBAR
+        // ============================================================
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('overlay').classList.toggle('show');
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('overlay').classList.remove('show');
+        }
+
+        function switchTool(tool) {
+            document.querySelectorAll('.tool-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
+            document.getElementById('tool-' + tool).classList.add('active');
+            document.querySelector(`.menu-item[data-tool="${tool}"]`).classList.add('active');
+            closeSidebar();
+        }
+
+        // ============================================================
+        // UNMUTE
+        // ============================================================
+        function toggleMute() {
+            const video = document.getElementById('bgVideo');
+            const btn = document.querySelector('.unmute-btn');
+            if (video.muted) { video.muted = false;
+                btn.textContent = '🔊 Mute'; } else { video.muted = true;
+                btn.textContent = '🔇 Unmute'; }
+        }
+
+        // ============================================================
+        // FORMAT HELPERS
+        // ============================================================
+        function formatNumber(num) { let n = parseInt(num); return Number(n).toLocaleString().replace(/,/g, "."); }
+
+        function formatDate(n) {
+            let d = new Date(n * 1000);
+            return d.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+        }
+
+        function pickRandom(list) { return list[Math.floor(Math.random() * list.length)]; }
+
+        // ============================================================
+        // TIKTOK
+        // ============================================================
+        async function tiktokDl(url) {
+            const res = (await axios.post('https://www.tikwm.com/api/', {}, {
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Origin': 'https://www.tikwm.com',
+                    'Referer': 'https://www.tikwm.com/', 'User-Agent': 'Mozilla/5.0' },
+                params: { url, count: 12, cursor: 0, web: 1, hd: 1 }
+            })).data.data;
+            let data = [];
+            if (res?.duration == 0) { res.images.forEach((v) => data.push({ type: 'photo', url: v })); } else { data.push({ type: 'watermark',
+                    url: 'https://www.tikwm.com' + (res?.wmplay || '') }, { type: 'nowatermark', url: 'https://www.tikwm.com' +
+                    (res?.play || '') }, { type: 'nowatermark_hd', url: 'https://www.tikwm.com' + (res?.hdplay || '') }); }
+            return {
+                title: res.title || 'Tidak ada judul',
+                taken_at: formatDate(res.create_time),
+                region: res.region || 'Global',
+                duration: res.duration + ' Seconds',
+                data,
+                music_info: { title: res.music_info?.title || 'Unknown', author: res.music_info?.author || 'Unknown',
+                    url: 'https://www.tikwm.com' + (res.music || res.music_info?.play || '') },
+                stats: { views: formatNumber(res.play_count || 0), likes: formatNumber(res.digg_count || 0),
+                    comment: formatNumber(res.comment_count || 0), share: formatNumber(res.share_count || 0),
+                    download: formatNumber(res.download_count || 0) },
+                author: { nickname: res.author?.nickname || 'Unknown', fullname: res.author?.unique_id || 'unknown' }
+            };
+        }
+
+        const ttUrl = document.getElementById('ttUrl');
+        const ttDownloadBtn = document.getElementById('ttDownloadBtn');
+        const ttMusicBtn = document.getElementById('ttMusicBtn');
+        const ttLoading = document.getElementById('ttLoading');
+        const ttError = document.getElementById('ttError');
+        const ttResult = document.getElementById('ttResult');
+        const ttPreview = document.getElementById('ttPreview');
+        const ttTitle = document.getElementById('ttTitle');
+        const ttInfo = document.getElementById('ttInfo');
+        const ttStats = document.getElementById('ttStats');
+        const ttSaveBtn = document.getElementById('ttSaveBtn');
+        const ttMusicSaveBtn = document.getElementById('ttMusicSaveBtn');
+
+        function ttShowLoading() { ttLoading.classList.add('show');
+            ttDownloadBtn.disabled = true;
+            ttMusicBtn.disabled = true; }
+
+        function ttHideLoading() { ttLoading.classList.remove('show');
+            ttDownloadBtn.disabled = false;
+            ttMusicBtn.disabled = false; }
+
+        function ttShowError(msg) { ttError.textContent = '❌ ' + msg;
+            ttError.classList.add('show');
+            setTimeout(() => ttError.classList.remove('show'), 6000); }
+
+        function ttHideError() { ttError.classList.remove('show'); }
+
+        function ttShowResult() { ttResult.classList.add('show'); }
+
+        function ttHideResult() { ttResult.classList.remove('show'); }
+
+        async function ttProcess(url) {
+            ttHideError();
+            ttHideResult();
+            ttShowLoading();
+            try {
+                const result = await tiktokDl(url);
+                const isVideo = result.duration !== '0 Seconds';
+                let mediaUrl = '';
+                if (isVideo) {
+                    const videoItem = result.data.find(e => e.type === 'nowatermark_hd' || e.type === 'nowatermark') ||
+                    result.data[0];
+                    mediaUrl = videoItem?.url || '';
+                    ttPreview.innerHTML =
+                        `<video controls src="${mediaUrl}" style="max-height:320px;width:100%;border-radius:10px;"></video>`;
+                } else {
+                    const photo = result.data.find(e => e.type === 'photo');
+                    mediaUrl = photo?.url || '';
+                    ttPreview.innerHTML =
+                        `<img src="${mediaUrl}" alt="Thumbnail" style="max-height:320px;width:100%;border-radius:10px;">`;
+                    if (result.data.length > 1) {
+                        let slideHtml = '<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:6px;">';
+                        result.data.forEach((p) => { slideHtml +=
+                                `<img src="${p.url}" style="width:50px;height:50px;object-fit:cover;border-radius:6px;cursor:pointer;" onclick="window.open('${p.url}','_blank')">`
+                                ; });
+                        slideHtml += '</div>';
+                        ttPreview.innerHTML += slideHtml;
+                    }
+                }
+                ttTitle.textContent = result.title;
+                ttInfo.textContent =
+                    `👤 ${result.author.nickname} (@${result.author.fullname}) • 📅 ${result.taken_at} • 🌍 ${result.region}`;
+                ttStats.innerHTML =
+                    `<span>👁️ ${result.stats.views}</span><span>❤️ ${result.stats.likes}</span><span>💬 ${result.stats.comment}</span><span>↗️ ${result.stats.share}</span><span>⬇️ ${result.stats.download}</span>`;
+                const ext = isVideo ? 'mp4' : 'jpg';
+                ttSaveBtn.href = mediaUrl;
+                ttSaveBtn.download = `${result.title || 'tiktok'}.${ext}`;
+                if (result.music_info.url) {
+                    ttMusicSaveBtn.href = result.music_info.url;
+                    ttMusicSaveBtn.download = `${result.music_info.title || 'music'}.mp3`;
+                    ttMusicSaveBtn.style.display = 'inline-flex';
+                } else { ttMusicSaveBtn.style.display = 'none'; }
+                ttShowResult();
+            } catch (err) { ttShowError(err.message || 'Gagal mengunduh'); } finally { ttHideLoading(); }
+        }
+
+        // ===== TOMBOL DOWNLOAD VIDEO (AUDIO TELAH DIHAPUS) =====
+        ttDownloadBtn.addEventListener('click', () => { const url = ttUrl.value.trim(); if (!url || !url.includes('tiktok.com') &&
+                !url.includes('vt.tiktok.com')) { ttShowError('Masukkan URL TikTok yang valid!'); return; }
+        ttProcess(url); });
+        ttUrl.addEventListener('keypress', (e) => { if (e.key === 'Enter') ttDownloadBtn.click(); });
+
+        // ============================================================
+        // INSTAGRAM (simplified - fallback)
+        // ============================================================
+        const igUrl = document.getElementById('igUrl');
+        const igDownloadBtn = document.getElementById('igDownloadBtn');
+        const igLoading = document.getElementById('igLoading');
+        const igError = document.getElementById('igError');
+        const igResult = document.getElementById('igResult');
+        const igPreview = document.getElementById('igPreview');
+        const igTitle = document.getElementById('igTitle');
+        const igInfo = document.getElementById('igInfo');
+        const igSaveBtn = document.getElementById('igSaveBtn');
+
+        function igShowLoading() { igLoading.classList.add('show');
+            igDownloadBtn.disabled = true; }
+
+        function igHideLoading() { igLoading.classList.remove('show');
+            igDownloadBtn.disabled = false; }
+
+        function igShowError(msg) { igError.textContent = '❌ ' + msg;
+            igError.classList.add('show');
+            setTimeout(() => igError.classList.remove('show'), 6000); }
+
+        function igHideError() { igError.classList.remove('show'); }
+
+        function igShowResult() { igResult.classList.add('show'); }
+
+        function igHideResult() { igResult.classList.remove('show'); }
+
+        async function igProcess(url) {
+            igHideError();
+            igHideResult();
+            igShowLoading();
+            try {
+                const proxy = 'https://cors.yardansh.com/';
+                const api = `${proxy}https://www.instagram.com/p/${url.split('/p/')[1]?.split('/')[0]}/?__a=1&__d=dis`;
+                const res = await axios.get(api);
+                const data = res.data?.items?.[0] || res.data?.graphql?.shortcode_media;
+                if (!data) throw new Error('Gagal ambil data');
+                const isVideo = data.is_video || data.video_url;
+                const mediaUrl = data.video_url || data.display_url;
+                igPreview.innerHTML = isVideo ?
+                    `<video controls src="${mediaUrl}" style="max-height:320px;width:100%;border-radius:10px;"></video>` :
+                    `<img src="${mediaUrl}" style="max-height:320px;width:100%;border-radius:10px;">`;
+                igTitle.textContent = data.owner?.username || 'Instagram';
+                igInfo.textContent = `❤️ ${data.like_count || 0} • 💬 ${data.comment_count || 0}`;
+                igSaveBtn.href = mediaUrl;
+                igSaveBtn.download = `instagram.${isVideo ? 'mp4' : 'jpg'}`;
+                igShowResult();
+            } catch (err) { igShowError(err.message || 'Gagal mengunduh'); } finally { igHideLoading(); }
+        }
+
+        igDownloadBtn.addEventListener('click', () => { const url = igUrl.value.trim(); if (!url || !url.includes(
+                'instagram.com')) { igShowError('Masukkan URL Instagram yang valid!'); return; }
+        igProcess(url); });
+        igUrl.addEventListener('keypress', (e) => { if (e.key === 'Enter') igDownloadBtn.click(); });
+
+        // ============================================================
+        // YOUTUBE (simplified - fallback)
+        // ============================================================
+        const ytUrl = document.getElementById('ytUrl');
+        const ytVideoBtn = document.getElementById('ytVideoBtn');
+        const ytMusicBtn = document.getElementById('ytMusicBtn');
+        const ytLoading = document.getElementById('ytLoading');
+        const ytError = document.getElementById('ytError');
+        const ytResult = document.getElementById('ytResult');
+        const ytPreview = document.getElementById('ytPreview');
+        const ytTitle = document.getElementById('ytTitle');
+        const ytInfo = document.getElementById('ytInfo');
+        const ytVideoSaveBtn = document.getElementById('ytVideoSaveBtn');
+        const ytMusicSaveBtn = document.getElementById('ytMusicSaveBtn');
+
+        function ytShowLoading() { ytLoading.classList.add('show');
+            ytVideoBtn.disabled = true;
+            ytMusicBtn.disabled = true; }
+
+        function ytHideLoading() { ytLoading.classList.remove('show');
+            ytVideoBtn.disabled = false;
+            ytMusicBtn.disabled = false; }
+
+        function ytShowError(msg) { ytError.textContent = '❌ ' + msg;
+            ytError.classList.add('show');
+            setTimeout(() => ytError.classList.remove('show'), 6000); }
+
+        function ytHideError() { ytError.classList.remove('show'); }
+
+        function ytShowResult() { ytResult.classList.add('show'); }
+
+        function ytHideResult() { ytResult.classList.remove('show'); }
+
+        async function ytProcess(url, type) {
+            ytHideError();
+            ytHideResult();
+            ytShowLoading();
+            try {
+                const api = `https://api.nexray.eu.cc/downloader/v1/yt${type === 'video' ? 'mp4' : 'mp3'}?url=${encodeURIComponent(url)}`;
+                const res = await axios.get(api);
+                const data = res.data?.result;
+                if (!data?.url) throw new Error('Gagal ambil data');
+                const isVideo = type === 'video';
+                ytPreview.innerHTML = isVideo ?
+                    `<video controls src="${data.url}" style="max-height:320px;width:100%;border-radius:10px;"></video>` :
+                    `<div style="padding:30px;text-align:center;color:rgba(255,255,255,0.3);">🎵 Audio siap diunduh</div>`;
+                ytTitle.textContent = data.title || 'YouTube';
+                ytInfo.textContent = `📥 ${isVideo ? 'Video' : 'Audio'} siap diunduh`;
+                const ext = isVideo ? 'mp4' : 'mp3';
+                if (isVideo) {
+                    ytVideoSaveBtn.href = data.url;
+                    ytVideoSaveBtn.download = `${data.title || 'video'}.${ext}`;
+                    ytVideoSaveBtn.style.display = 'inline-flex';
+                    ytMusicSaveBtn.style.display = 'none';
+                } else {
+                    ytMusicSaveBtn.href = data.url;
+                    ytMusicSaveBtn.download = `${data.title || 'audio'}.${ext}`;
+                    ytMusicSaveBtn.style.display = 'inline-flex';
+                    ytVideoSaveBtn.style.display = 'none';
+                }
+                ytShowResult();
+            } catch (err) { ytShowError(err.message || 'Gagal mengunduh'); } finally { ytHideLoading(); }
+        }
+
+        ytVideoBtn.addEventListener('click', () => { const url = ytUrl.value.trim(); if (!url || !url.includes('youtube.com') &&
+                !url.includes('youtu.be')) { ytShowError('Masukkan URL YouTube yang valid!'); return; }
+        ytProcess(url, 'video'); });
+        ytMusicBtn.addEventListener('click', () => { const url = ytUrl.value.trim(); if (!url || !url.includes('youtube.com') &&
+                !url.includes('youtu.be')) { ytShowError('Masukkan URL YouTube yang valid!'); return; }
+        ytProcess(url, 'audio'); });
+        ytUrl.addEventListener('keypress', (e) => { if (e.key === 'Enter') ytVideoBtn.click(); });
+
+        // ============================================================
+        // CEK KONTOL
+        // ============================================================
+        const ckUrl = document.getElementById('ckUrl');
+        const ckDownloadBtn = document.getElementById('ckDownloadBtn');
+        const ckResult = document.getElementById('ckResult');
+
+        ckDownloadBtn.addEventListener('click', () => {
+            const name = ckUrl.value.trim();
+            if (!name) { ckResult.innerHTML =
+                '<span style="color:#f87171;">❌ Masukkan nama!</span>';
+                ckResult.classList.add('show'); return; }
+            const result = `
+╭━━━━°「 *Kontolnya ${name}* 」°
+┃
+┊• Nama : ${name}
+┃• Kontol : ${pickRandom(['Putih mulus','Putih','Hitam pekat','Hitam','Coklat'])}
+┊• Jembut : ${pickRandom(['Lebat','Tipis','Gada Jembut', 'Bersih'])}
+┃• Status : ${pickRandom(['Perjaka','Ga perjaka','Besar','Panjang','Disunat','Blom Disunat'])}
+╰═┅═━––––––๑
+`;
+            ckResult.innerHTML = result.replace(/\n/g, '<br>');
+            ckResult.classList.add('show');
+        });
+        ckUrl.addEventListener('keypress', (e) => { if (e.key === 'Enter') ckDownloadBtn.click(); });
+
+        console.log('✅ Multi Tools siap!');
+    </script>
+
+</body>
+</html>
