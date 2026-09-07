@@ -1,35 +1,24 @@
-export default async function handler(req, res) {
-  const { url } = req.query;
-
-  if (!url) return res.status(400).json({ error: "url kosong" });
-
-  // Ini endpoint savefromins buat IG
-  const endpoint = `https://api.savefromins.com/api/v1/info?url=${encodeURIComponent(url)}`;
-
-  try {
-    const response = await fetch(endpoint, {
-      headers: {
-        "Accept": "application/json",
-        "User-Agent": "Mozilla/5.0"
-      }
-    });
-
-    if(!response.ok) throw new Error("API error");
-    const data = await response.json();
-
-    // Format biar sama kayak TikTok lu
-    res.status(200).json({
-      title: data.title || "Instagram",
-      author: { nickname: data.author?.name || "IG User", fullname: data.author?.username || "" },
-      data: [
-        { type: data.type === 'video'? 'video' : 'photo', url: data.media_url }
-      ],
-      music_info: { url: "" },
-      stats: { views: "0", likes: data.likes || "0", comment: "0", share: "0", download: "0" },
-      taken_at: data.date || ""
-    });
-
-  } catch (err) {
-    res.status(500).json({ error: "Gagal fetch ke API: " + err.message });
-  }
-}
+export default async function handler(req, res) { // line 1
+  const { url } = req.query; // line 2
+  if (!url) return res.status(400).json({ error: "url kosong" }); // line 3
+ // line 4
+  try { // line 5
+    const r = await fetch("https://co.wuk.sh/api/json", { // <-- GANTI LINE INI
+      method: "POST", // line 7
+      headers: { "Content-Type": "application/json" }, // line 8
+      body: JSON.stringify({ url: url }) // line 9
+    }); // line 10
+     // line 11
+    const data = await r.json(); // line 12
+    if(data.status !== "tunnel") throw new Error(data.text); // line 13
+ // line 14
+    res.status(200).json({ // line 15
+      title: "Instagram", // line 16
+      author: { nickname: "IG" }, // line 17
+      data: [{ type: "video", url: data.url }] // line 18
+    }); // line 19
+ // line 20
+  } catch (err) { // line 21
+    res.status(500).json({ error: err.message }); // line 22
+  } // line 23
+} // line 24
