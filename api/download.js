@@ -1,11 +1,10 @@
-const axios = require('axios');
-const qs = require('qs');
+const { igdl } = require('../lib/instagram');
 
 module.exports = async (req, res) => {
     // Handling CORS Headers
     res.setHeader('Access-Control-Allow-Credentials', true);
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST');
     res.setHeader(
         'Access-Control-Allow-Headers',
         'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
@@ -28,32 +27,22 @@ module.exports = async (req, res) => {
     }
 
     try {
-        const formData = qs.stringify({
-            q: url,
-            t: 'media',
-            lang: 'en'
-        });
+        // Memanggil fungsi igdl dari file instagram.js
+        const result = await igdl(url);
 
-        const response = await axios.post('https://indown.ai/api/ajaxSearch', formData, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                'Referer': 'https://indown.ai/en',
-                'X-Requested-With': 'XMLHttpRequest',
-                'Cookie': 'fpestid=HY4Y8RFV1KzjvLwnTQyDF5Gu6_AgLlSdKZynPmCLhTRQa2YkmYoCRUTfe7_M2tkIMaGDHA;'
-            },
-            timeout: 10000 // Timeout 10 detik agar API tidak menggantung
-        });
+        if (!result.status) {
+            return res.status(400).json({
+                status: false,
+                message: result.message || 'Gagal mengambil media dari Instagram'
+            });
+        }
 
-        return res.status(200).json({
-            status: true,
-            data: response.data
-        });
+        return res.status(200).json(result);
 
     } catch (error) {
         return res.status(500).json({
             status: false,
-            message: error.response ? (error.response.data || 'Gagal mengambil data dari server penyedia') : error.message
+            message: error.message || 'Terjadi kesalahan pada server'
         });
     }
 };
