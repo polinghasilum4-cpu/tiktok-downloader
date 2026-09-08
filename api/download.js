@@ -2,6 +2,20 @@ const axios = require('axios');
 const qs = require('qs');
 
 module.exports = async (req, res) => {
+    // Handling CORS Headers
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+    res.setHeader(
+        'Access-Control-Allow-Headers',
+        'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+    );
+
+    // Tangani preflight OPTIONS request
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
+
     // Hanya izinkan method POST
     if (req.method !== 'POST') {
         return res.status(405).json({ status: false, message: 'Method Not Allowed' });
@@ -23,11 +37,12 @@ module.exports = async (req, res) => {
         const response = await axios.post('https://indown.ai/api/ajaxSearch', formData, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
                 'Referer': 'https://indown.ai/en',
                 'X-Requested-With': 'XMLHttpRequest',
                 'Cookie': 'fpestid=HY4Y8RFV1KzjvLwnTQyDF5Gu6_AgLlSdKZynPmCLhTRQa2YkmYoCRUTfe7_M2tkIMaGDHA;'
-            }
+            },
+            timeout: 10000 // Timeout 10 detik agar API tidak menggantung
         });
 
         return res.status(200).json({
@@ -38,7 +53,7 @@ module.exports = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             status: false,
-            message: error.response ? error.response.data : error.message
+            message: error.response ? (error.response.data || 'Gagal mengambil data dari server penyedia') : error.message
         });
     }
 };
