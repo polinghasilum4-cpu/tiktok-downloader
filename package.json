@@ -1,11 +1,8 @@
 {
-  "name": "multi-tools-downloader",
+  "name": "tools-downloader",
   "version": "1.0.0",
-  "description": "Multi-tool downloader dengan YouTube, SoundCloud, dan game",
+  "description": "Multi Tools Downloader + Games — by xs0ciety",
   "private": true,
-  "scripts": {
-    "build": "echo 'No build step required'"
-  },
   "engines": {
     "node": "20.x"
   }
