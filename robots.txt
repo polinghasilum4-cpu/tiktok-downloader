@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://xs0cietylabsz.biz.id/sitemap.xml
