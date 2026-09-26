@@ -99,7 +99,6 @@
         -webkit-mask-image: radial-gradient(ellipse at 50% 40%, black 20%, transparent 75%);
     }
 
-    /* NAVBAR */
     .top-navbar {
         position: fixed;
         top: 0; left: 0; right: 0;
@@ -114,45 +113,28 @@
         justify-content: space-between;
         padding: 0 20px;
     }
-    .nav-left {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
+    .nav-left { display: flex; align-items: center; gap: 12px; }
     .nav-logo {
-        font-size: 14px;
-        font-weight: 600;
-        letter-spacing: -0.01em;
-        color: var(--text);
-        display: flex;
-        align-items: center;
-        gap: 8px;
+        font-size: 14px; font-weight: 600;
+        letter-spacing: -0.01em; color: var(--text);
+        display: flex; align-items: center; gap: 8px;
     }
     .nav-logo .dot {
-        width: 8px; height: 8px;
-        border-radius: 50%;
+        width: 8px; height: 8px; border-radius: 50%;
         background: var(--accent);
         box-shadow: 0 0 12px rgba(99,102,241,0.7);
     }
-    .nav-logo em {
-        font-style: normal;
-        color: var(--text-faint);
-        font-weight: 500;
-    }
+    .nav-logo em { font-style: normal; color: var(--text-faint); font-weight: 500; }
     .menu-btn {
         background: rgba(23, 23, 26, 0.7);
         border: 1px solid var(--border);
         color: var(--text-muted);
         width: 34px; height: 34px;
         border-radius: var(--radius-sm);
-        font-size: 15px;
-        cursor: pointer;
+        font-size: 15px; cursor: pointer;
         transition: all 0.18s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        line-height: 1;
-        backdrop-filter: blur(8px);
+        display: flex; align-items: center; justify-content: center;
+        line-height: 1; backdrop-filter: blur(8px);
     }
     .menu-btn:hover {
         background: var(--surface-3);
@@ -165,15 +147,10 @@
         color: var(--text-muted);
         padding: 6px 12px;
         border-radius: var(--radius-sm);
-        font-size: 12px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.18s ease;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-family: inherit;
-        backdrop-filter: blur(8px);
+        font-size: 12px; font-weight: 500;
+        cursor: pointer; transition: all 0.18s ease;
+        display: flex; align-items: center; gap: 6px;
+        font-family: inherit; backdrop-filter: blur(8px);
     }
     .unmute-btn:hover {
         color: var(--text);
@@ -181,7 +158,6 @@
         background: var(--surface-2);
     }
 
-    /* SIDEBAR */
     .sidebar {
         position: fixed;
         top: 0; left: -300px;
@@ -200,32 +176,21 @@
     .sidebar::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
 
     .sidebar .section-title {
-        font-size: 10px;
-        font-weight: 600;
-        color: var(--text-faint);
-        text-transform: uppercase;
-        letter-spacing: 0.09em;
-        margin: 18px 0 8px 10px;
+        font-size: 10px; font-weight: 600;
+        color: var(--text-faint); text-transform: uppercase;
+        letter-spacing: 0.09em; margin: 18px 0 8px 10px;
     }
     .sidebar .section-title:first-of-type { margin-top: 4px; }
     .sidebar .section-title.divider {
-        margin-top: 24px;
-        padding-top: 18px;
+        margin-top: 24px; padding-top: 18px;
         border-top: 1px solid var(--border);
     }
-
     .sidebar .menu-item {
-        display: flex;
-        align-items: center;
-        gap: 11px;
-        padding: 9px 10px;
-        border-radius: var(--radius-sm);
-        color: var(--text-muted);
-        cursor: pointer;
+        display: flex; align-items: center; gap: 11px;
+        padding: 9px 10px; border-radius: var(--radius-sm);
+        color: var(--text-muted); cursor: pointer;
         transition: background 0.15s ease, color 0.15s ease;
-        margin-bottom: 1px;
-        font-weight: 500;
-        font-size: 13px;
+        margin-bottom: 1px; font-weight: 500; font-size: 13px;
         user-select: none;
     }
     .sidebar .menu-item:hover {
@@ -238,34 +203,21 @@
     }
     .sidebar .menu-item.active .icon { color: var(--accent); }
     .sidebar .menu-item .icon {
-        font-size: 14px;
-        width: 20px;
-        height: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        font-size: 14px; width: 20px; height: 20px;
+        display: flex; align-items: center; justify-content: center;
         color: var(--text-faint);
         transition: color 0.15s ease;
         flex-shrink: 0;
     }
-    .sidebar .menu-item .icon svg {
-        width: 16px;
-        height: 16px;
-        display: block;
-    }
+    .sidebar .menu-item .icon svg { width: 16px; height: 16px; display: block; }
     .sidebar .close-sidebar {
-        position: absolute;
-        top: 16px; right: 14px;
-        background: transparent;
-        border: 1px solid var(--border);
+        position: absolute; top: 16px; right: 14px;
+        background: transparent; border: 1px solid var(--border);
         border-radius: var(--radius-sm);
         width: 30px; height: 30px;
-        color: var(--text-muted);
-        font-size: 13px;
+        color: var(--text-muted); font-size: 13px;
         cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        display: flex; align-items: center; justify-content: center;
         transition: all 0.15s ease;
     }
     .sidebar .close-sidebar:hover {
@@ -275,33 +227,26 @@
     }
 
     .overlay {
-        position: fixed;
-        inset: 0;
+        position: fixed; inset: 0;
         background: rgba(0, 0, 0, 0.5);
         backdrop-filter: blur(3px);
-        z-index: 98;
-        display: none;
-        opacity: 0;
+        z-index: 98; display: none; opacity: 0;
         transition: opacity 0.25s ease;
     }
     .overlay.show { display: block; opacity: 1; }
 
-    /* CONTAINER */
     .container {
-        position: relative;
-        z-index: 1;
+        position: relative; z-index: 1;
         background: rgba(17, 17, 19, 0.55);
         backdrop-filter: saturate(160%) blur(20px);
         -webkit-backdrop-filter: saturate(160%) blur(20px);
         border-radius: var(--radius-xl);
         padding: 32px 28px;
-        max-width: 520px;
-        width: 100%;
+        max-width: 520px; width: 100%;
         border: 1px solid rgba(255, 255, 255, 0.08);
         box-shadow: 0 24px 60px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.04);
         animation: containerIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        margin: auto 0;
-        overflow: hidden;
+        margin: auto 0; overflow: hidden;
     }
     .container::before {
         content: '';
@@ -321,26 +266,16 @@
         100% { opacity: 1; transform: translateY(0); }
     }
 
-    /* HEADER */
     .header {
-        margin-bottom: 24px;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        margin-bottom: 24px; text-align: center;
+        display: flex; flex-direction: column; align-items: center;
     }
     .header .eyebrow {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        font-size: 10px;
-        font-weight: 600;
-        color: var(--accent);
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        margin-bottom: 12px;
-        padding: 3px 9px;
-        background: var(--accent-soft);
+        display: inline-flex; align-items: center; gap: 5px;
+        font-size: 10px; font-weight: 600;
+        color: var(--accent); letter-spacing: 0.1em;
+        text-transform: uppercase; margin-bottom: 12px;
+        padding: 3px 9px; background: var(--accent-soft);
         border: 1px solid var(--accent-border);
         border-radius: 4px;
     }
@@ -349,88 +284,60 @@
         background: rgba(29, 185, 84, 0.1);
         border-color: rgba(29, 185, 84, 0.3);
     }
+    .header .eyebrow.voice {
+        color: #a855f7;
+        background: rgba(168, 85, 247, 0.1);
+        border-color: rgba(168, 85, 247, 0.3);
+    }
     .header .icon-badge {
-        width: 56px;
-        height: 56px;
-        border-radius: 16px;
+        width: 56px; height: 56px; border-radius: 16px;
         background: rgba(255, 255, 255, 0.04);
         border: 1px solid var(--border);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 26px;
-        margin-bottom: 14px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 26px; margin-bottom: 14px;
         backdrop-filter: blur(8px);
     }
-    .header .icon-badge svg {
-        width: 30px;
-        height: 30px;
-        display: block;
-    }
+    .header .icon-badge svg { width: 30px; height: 30px; display: block; }
     .header h1 {
-        font-size: 22px;
-        font-weight: 600;
-        color: var(--text);
-        letter-spacing: -0.02em;
-        margin-bottom: 8px;
-        line-height: 1.2;
+        font-size: 22px; font-weight: 600;
+        color: var(--text); letter-spacing: -0.02em;
+        margin-bottom: 8px; line-height: 1.2;
     }
     .header p {
-        color: var(--text-muted);
-        font-size: 13px;
-        line-height: 1.5;
-        max-width: 340px;
+        color: var(--text-muted); font-size: 13px;
+        line-height: 1.5; max-width: 340px;
     }
 
-    /* INPUTS */
-    .input-group {
-        display: flex;
-        gap: 8px;
-        margin-bottom: 12px;
-    }
-    .input-group input,
-    .game-input {
-        flex: 1;
-        width: 100%;
+    .input-group { display: flex; gap: 8px; margin-bottom: 12px; }
+    .input-group input, .game-input {
+        flex: 1; width: 100%;
         padding: 11px 14px;
         border: 1px solid var(--border);
         border-radius: var(--radius);
         background: rgba(10, 10, 11, 0.6);
-        color: var(--text);
-        font-size: 13px;
+        color: var(--text); font-size: 13px;
         outline: none;
         transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
-        font-family: inherit;
-        backdrop-filter: blur(8px);
+        font-family: inherit; backdrop-filter: blur(8px);
     }
-    .input-group input:hover,
-    .game-input:hover { border-color: var(--border-strong); }
-    .input-group input:focus,
-    .game-input:focus {
+    .input-group input:hover, .game-input:hover { border-color: var(--border-strong); }
+    .input-group input:focus, .game-input:focus {
         border-color: var(--accent);
         background: rgba(13, 13, 15, 0.8);
         box-shadow: 0 0 0 3px var(--accent-soft);
     }
-    .input-group input::placeholder,
-    .game-input::placeholder { color: var(--text-faint); }
+    .input-group input::placeholder, .game-input::placeholder { color: var(--text-faint); }
 
-    /* BUTTONS */
     .btn-download {
         padding: 11px 18px;
         border: 1px solid var(--accent);
         border-radius: var(--radius);
         background: var(--accent);
-        color: #fff;
-        font-weight: 500;
-        font-size: 13px;
-        cursor: pointer;
-        transition: all 0.15s ease;
+        color: #fff; font-weight: 500; font-size: 13px;
+        cursor: pointer; transition: all 0.15s ease;
         white-space: nowrap;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        font-family: inherit;
+        display: inline-flex; align-items: center; justify-content: center;
+        gap: 8px; font-family: inherit;
         letter-spacing: -0.005em;
     }
     .btn-download:hover:not(:disabled) {
@@ -463,27 +370,17 @@
         border-color: #1ed760 !important;
     }
 
-    .btn-group-top {
-        display: flex;
-        gap: 8px;
-        margin-bottom: 12px;
-    }
+    .btn-group-top { display: flex; gap: 8px; margin-bottom: 12px; }
     .btn-group-top .btn-download { flex: 1; }
 
-    /* LOADING */
     .loading {
-        display: none;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        padding: 14px 0;
-        color: var(--text-muted);
-        font-size: 12.5px;
+        display: none; align-items: center; justify-content: center;
+        gap: 10px; padding: 14px 0;
+        color: var(--text-muted); font-size: 12.5px;
     }
     .loading.show { display: flex; }
     .spinner-ring {
-        width: 14px; height: 14px;
-        border-radius: 50%;
+        width: 14px; height: 14px; border-radius: 50%;
         border: 1.5px solid var(--border-strong);
         border-top-color: var(--accent);
         animation: spin 0.7s linear infinite;
@@ -491,23 +388,19 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ERROR */
     .error-msg {
-        color: #fca5a5;
-        font-size: 12.5px;
+        color: #fca5a5; font-size: 12.5px;
         padding: 10px 14px;
         background: rgba(239, 68, 68, 0.12);
         border-radius: var(--radius);
         border: 1px solid rgba(239, 68, 68, 0.3);
-        display: none;
-        margin-top: 12px;
+        display: none; margin-top: 12px;
         animation: fadeIn 0.2s ease;
         line-height: 1.4;
         backdrop-filter: blur(8px);
     }
     .error-msg.show { display: block; }
 
-    /* RESULT */
     .result-container {
         margin-top: 18px;
         border-radius: var(--radius-lg);
@@ -520,76 +413,52 @@
     .result-container.show { display: block; animation: fadeIn 0.3s ease; }
     .result-container .preview {
         border-radius: var(--radius);
-        overflow: hidden;
-        margin-bottom: 14px;
-        background: #000;
-        max-height: 320px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        overflow: hidden; margin-bottom: 14px;
+        background: #000; max-height: 320px;
+        display: flex; justify-content: center; align-items: center;
         border: 1px solid var(--border);
     }
     .result-container .preview img,
     .result-container .preview video {
-        max-width: 100%;
-        max-height: 320px;
-        object-fit: contain;
-        display: block;
+        max-width: 100%; max-height: 320px;
+        object-fit: contain; display: block;
     }
     .result-container .title {
-        color: var(--text);
-        font-size: 14px;
-        font-weight: 500;
-        margin-bottom: 6px;
-        line-height: 1.4;
+        color: var(--text); font-size: 14px; font-weight: 500;
+        margin-bottom: 6px; line-height: 1.4;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
     .result-container .info {
-        color: var(--text-muted);
-        font-size: 12px;
-        margin-bottom: 12px;
-        line-height: 1.5;
+        color: var(--text-muted); font-size: 12px;
+        margin-bottom: 12px; line-height: 1.5;
     }
     .result-container .stats {
-        display: flex;
-        gap: 6px;
-        flex-wrap: wrap;
+        display: flex; gap: 6px; flex-wrap: wrap;
         margin-bottom: 14px;
     }
     .result-container .stats span {
-        color: var(--text-muted);
-        font-size: 11px;
+        color: var(--text-muted); font-size: 11px;
         background: rgba(23, 23, 26, 0.7);
         border: 1px solid var(--border);
-        padding: 3px 9px;
-        border-radius: 6px;
+        padding: 3px 9px; border-radius: 6px;
         font-variant-numeric: tabular-nums;
     }
     .result-container .btn-group {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
+        display: flex; gap: 8px; flex-wrap: wrap;
     }
     .result-container .btn-save {
-        flex: 1;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        padding: 10px 16px;
+        flex: 1; display: inline-flex;
+        align-items: center; justify-content: center;
+        gap: 8px; padding: 10px 16px;
         border: 1px solid var(--border-strong);
         border-radius: var(--radius);
         background: rgba(23, 23, 26, 0.7);
-        color: var(--text);
-        font-weight: 500;
-        font-size: 12.5px;
-        cursor: pointer;
-        transition: all 0.15s ease;
-        font-family: inherit;
-        backdrop-filter: blur(8px);
+        color: var(--text); font-weight: 500; font-size: 12.5px;
+        cursor: pointer; transition: all 0.15s ease;
+        font-family: inherit; backdrop-filter: blur(8px);
     }
     .result-container .btn-save:hover {
         background: var(--surface-3);
@@ -597,54 +466,39 @@
         transform: translateY(-1px);
     }
     .result-container .btn-save:active { transform: translateY(0); }
-    .result-container .btn-save.btn-save-spotify:hover {
-        border-color: var(--spotify);
-    }
+    .result-container .btn-save.btn-save-spotify:hover { border-color: var(--spotify); }
 
-    /* GAME RESULT */
     .result-box, .game-result {
-        margin-top: 18px;
-        padding: 18px;
+        margin-top: 18px; padding: 18px;
         background: rgba(10, 10, 11, 0.55);
         border-radius: var(--radius);
         border: 1px solid var(--border);
-        color: var(--text);
-        font-size: 13px;
-        line-height: 1.8;
-        display: none;
+        color: var(--text); font-size: 13px;
+        line-height: 1.8; display: none;
         white-space: pre-wrap;
         font-family: 'SF Mono', 'JetBrains Mono', Menlo, Consolas, monospace;
         font-variant-numeric: tabular-nums;
-        backdrop-filter: blur(8px);
-        text-align: center;
+        backdrop-filter: blur(8px); text-align: center;
     }
     .result-box.show, .game-result.show { display: block; animation: fadeIn 0.3s ease; }
 
     .game-input { margin-bottom: 10px; }
 
-    /* FACE SWAP — upload grid */
     .upload-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-        margin-bottom: 12px;
+        display: grid; grid-template-columns: 1fr 1fr;
+        gap: 10px; margin-bottom: 12px;
     }
     .upload-slot {
         border: 1.5px dashed var(--border-strong);
         border-radius: var(--radius);
         background: rgba(10, 10, 11, 0.5);
         aspect-ratio: 1 / 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        cursor: pointer;
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        gap: 6px; cursor: pointer;
         transition: all 0.15s ease;
-        overflow: hidden;
-        position: relative;
-        text-align: center;
-        padding: 8px;
+        overflow: hidden; position: relative;
+        text-align: center; padding: 8px;
         backdrop-filter: blur(8px);
     }
     .upload-slot:hover {
@@ -657,44 +511,190 @@
         padding: 0;
     }
     .upload-slot img {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+        position: absolute; inset: 0;
+        width: 100%; height: 100%; object-fit: cover;
     }
     .upload-slot .upload-icon { font-size: 22px; opacity: 0.75; }
     .upload-slot .upload-label {
-        font-size: 10.5px;
-        color: var(--text-muted);
-        font-weight: 500;
-        line-height: 1.3;
+        font-size: 10.5px; color: var(--text-muted);
+        font-weight: 500; line-height: 1.3;
     }
     .upload-slot input { display: none; }
     .upload-slot .slot-badge {
-        position: absolute;
-        bottom: 4px; right: 4px;
+        position: absolute; bottom: 4px; right: 4px;
         background: rgba(0, 0, 0, 0.78);
-        color: var(--success);
-        font-size: 9.5px;
-        padding: 2px 6px;
-        border-radius: 4px;
+        color: var(--success); font-size: 9.5px;
+        padding: 2px 6px; border-radius: 4px;
         font-family: 'SF Mono', Menlo, Consolas, monospace;
-        z-index: 1;
-        font-variant-numeric: tabular-nums;
+        z-index: 1; font-variant-numeric: tabular-nums;
     }
-    .fs-loading-text {
+    .fs-loading-text { font-variant-numeric: tabular-nums; }
+
+    /* VOICE CHANGER */
+    .vc-upload {
+        border: 1.5px dashed var(--border-strong);
+        border-radius: var(--radius);
+        background: rgba(10, 10, 11, 0.5);
+        padding: 24px 16px;
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        gap: 8px; text-align: center;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        margin-bottom: 12px;
+        backdrop-filter: blur(8px);
+        position: relative; overflow: hidden;
+    }
+    .vc-upload:hover {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+    }
+    .vc-upload.has-file {
+        border-style: solid;
+        border-color: var(--success);
+        padding: 14px;
+        cursor: default;
+    }
+    .vc-upload input { display: none; }
+    .vc-upload-icon {
+        width: 40px; height: 40px;
+        display: flex; align-items: center; justify-content: center;
+        color: #a855f7;
+        opacity: 0.9;
+    }
+    .vc-upload-icon svg { width: 36px; height: 36px; display: block; }
+    .vc-upload-title {
+        font-size: 13px; font-weight: 500;
+        color: var(--text);
+    }
+    .vc-upload-sub {
+        font-size: 11px; color: var(--text-faint);
+        line-height: 1.4;
+    }
+    .vc-file-row {
+        display: flex; align-items: center;
+        gap: 10px; width: 100%; text-align: left;
+    }
+    .vc-file-icon {
+        width: 40px; height: 40px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #a855f7, #6366f1);
+        display: flex; align-items: center; justify-content: center;
+        flex-shrink: 0;
+        font-size: 18px;
+        color: #fff;
+    }
+    .vc-file-meta { flex: 1; min-width: 0; }
+    .vc-file-name {
+        font-size: 12.5px; font-weight: 500;
+        color: var(--text);
+        white-space: nowrap; overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .vc-file-sub {
+        font-size: 11px; color: var(--text-faint);
+        margin-top: 2px; font-variant-numeric: tabular-nums;
+    }
+    .vc-file-clear {
+        background: transparent;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        width: 28px; height: 28px;
+        color: var(--text-muted); font-size: 12px;
+        cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        transition: all 0.15s ease;
+        flex-shrink: 0;
+    }
+    .vc-file-clear:hover {
+        color: var(--text);
+        border-color: var(--border-strong);
+        background: var(--surface-3);
+    }
+
+    .vc-label {
+        font-size: 11px; font-weight: 600;
+        color: var(--text-faint);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin: 16px 0 8px 2px;
+    }
+
+    .vc-voices {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+        max-height: 240px;
+        overflow-y: auto;
+        padding-right: 4px;
+        margin-bottom: 12px;
+    }
+    .vc-voices::-webkit-scrollbar { width: 4px; }
+    .vc-voices::-webkit-scrollbar-thumb {
+        background: var(--border-strong);
+        border-radius: 4px;
+    }
+    .vc-voice {
+        display: flex; align-items: center; gap: 8px;
+        padding: 8px 10px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        background: rgba(10, 10, 11, 0.5);
+        cursor: pointer;
+        transition: all 0.15s ease;
+        text-align: left;
+        font-family: inherit;
+        color: var(--text);
+    }
+    .vc-voice:hover {
+        border-color: var(--border-strong);
+        background: var(--surface-3);
+    }
+    .vc-voice.is-active {
+        border-color: #a855f7;
+        background: rgba(168, 85, 247, 0.1);
+    }
+    .vc-voice-avatar {
+        width: 26px; height: 26px;
+        border-radius: 6px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 11px; font-weight: 700;
+        color: #fff; flex-shrink: 0;
+    }
+    .vc-voice-avatar.m { background: linear-gradient(135deg, #6366f1, #3b82f6); }
+    .vc-voice-avatar.f { background: linear-gradient(135deg, #ec4899, #a855f7); }
+    .vc-voice-info { flex: 1; min-width: 0; }
+    .vc-voice-name {
+        font-size: 12px; font-weight: 500;
+        color: var(--text); line-height: 1.2;
+        white-space: nowrap; overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .vc-voice-meta {
+        font-size: 10px; color: var(--text-faint);
+        margin-top: 1px;
         font-variant-numeric: tabular-nums;
     }
 
-    /* FOOTER */
+    .vc-audio-preview {
+        width: 100%;
+        margin-top: 12px;
+        border-radius: var(--radius);
+        background: rgba(10, 10, 11, 0.6);
+        border: 1px solid var(--border);
+        padding: 10px;
+    }
+    .vc-audio-preview audio {
+        width: 100%;
+        height: 36px;
+        outline: none;
+    }
+
     .footer {
         text-align: center;
-        margin-top: 28px;
-        padding-top: 18px;
+        margin-top: 28px; padding-top: 18px;
         border-top: 1px solid var(--border);
-        color: var(--text-faint);
-        font-size: 11px;
+        color: var(--text-faint); font-size: 11px;
         letter-spacing: 0.02em;
     }
     .footer span { color: var(--text-muted); font-weight: 500; }
@@ -842,6 +842,25 @@
             </svg>
         </span>
         <span class="label">Face Swap</span>
+    </div>
+    <div class="menu-item" data-tool="voicechanger" onclick="switchTool('voicechanger')">
+        <span class="icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="vcGradSide" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#a855f7"/>
+                        <stop offset="100%" stop-color="#6366f1"/>
+                    </linearGradient>
+                </defs>
+                <rect x="9.5" y="3" width="5" height="11" rx="2.5"
+                      fill="none" stroke="url(#vcGradSide)" stroke-width="1.6"/>
+                <path d="M6 11.5v.5a6 6 0 0 0 12 0v-.5"
+                      fill="none" stroke="url(#vcGradSide)" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M12 18v3M9 21h6"
+                      fill="none" stroke="url(#vcGradSide)" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+        </span>
+        <span class="label">Voice Changer</span>
     </div>
 </aside>
 
@@ -1137,6 +1156,77 @@
         </div>
     </section>
 
+    <!-- VOICE CHANGER -->
+    <section class="tool-content" id="tool-voicechanger">
+        <div class="header">
+            <div class="icon-badge">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="vcGradHead" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#a855f7"/>
+                            <stop offset="100%" stop-color="#6366f1"/>
+                        </linearGradient>
+                    </defs>
+                    <rect x="9.5" y="3" width="5" height="11" rx="2.5"
+                          fill="none" stroke="url(#vcGradHead)" stroke-width="1.8"/>
+                    <path d="M6 11.5v.5a6 6 0 0 0 12 0v-.5"
+                          fill="none" stroke="url(#vcGradHead)" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M12 18v3M9 21h6"
+                          fill="none" stroke="url(#vcGradHead)" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <span class="eyebrow voice">AI Utility</span>
+            <h1>Voice Changer</h1>
+            <p>Ubah suara audio pakai AI · 31 voice</p>
+        </div>
+
+        <div class="vc-upload" id="vcUpload">
+            <input type="file" id="vcInput" accept="audio/*" />
+            <div class="vc-upload-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="vcGradUpload" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#a855f7"/>
+                            <stop offset="100%" stop-color="#6366f1"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M12 3v14M6 13l6 6 6-6"
+                          stroke="url(#vcGradUpload)" stroke-width="1.8"
+                          fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M5 21h14"
+                          stroke="url(#vcGradUpload)" stroke-width="1.8"
+                          fill="none" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <div class="vc-upload-title">Pilih file audio</div>
+            <div class="vc-upload-sub">MP3 / WAV / M4A · Max 3 menit · Max 25 MB</div>
+        </div>
+
+        <div class="vc-label">Pilih Suara (31 voice)</div>
+        <div class="vc-voices" id="vcVoices"></div>
+
+        <button class="btn-download" id="vcGoBtn" style="width:100%;" disabled>
+            🎤 Convert Suara
+        </button>
+
+        <div class="loading" id="vcLoading">
+            <div class="spinner-ring"></div>
+            <div id="vcLoadingText">Memproses...</div>
+        </div>
+
+        <div class="error-msg" id="vcError"></div>
+
+        <div class="result-container" id="vcResult">
+            <div class="info" id="vcInfo"></div>
+            <div class="vc-audio-preview">
+                <audio id="vcAudio" controls></audio>
+            </div>
+            <div class="btn-group" style="margin-top:12px;">
+                <button class="btn-save" id="vcSaveBtn">⬇ Download Hasil</button>
+            </div>
+        </div>
+    </section>
+
     <div class="footer">
         <span>© 2026 • xs0ciety HUB</span> · multi tools & utilities
     </div>
@@ -1166,9 +1256,6 @@
         closeSidebar();
     }
 
-    // ============================================================
-    //  UNMUTE
-    // ============================================================
     function toggleMute() {
         const video = document.getElementById('bgVideo');
         const btn = document.getElementById('muteBtn');
@@ -1181,9 +1268,6 @@
         }
     }
 
-    // ============================================================
-    //  FORCE DOWNLOAD
-    // ============================================================
     async function forceDownload(url, filename) {
         if (!url || url === '#') return;
         try {
@@ -1202,9 +1286,6 @@
         }
     }
 
-    // ============================================================
-    //  HELPERS
-    // ============================================================
     function formatNumber(num) {
         let n = parseInt(num);
         return Number(n).toLocaleString().replace(/,/g, ".");
@@ -1804,7 +1885,6 @@
         fsGoBtn.disabled = !(fsState.sourceFile && fsState.targetFile);
     }
 
-    // Auto-compress biar gak kena limit Vercel 4.5 MB
     function fsCompressImage(file, maxDim = 1280, quality = 0.72) {
         return new Promise((resolve, reject) => {
             const img = new Image();
@@ -1891,8 +1971,6 @@
                     fsCompressImage(fsState.sourceFile),
                     fsCompressImage(fsState.targetFile),
                 ]);
-                const totalMB = (srcC.size + tgtC.size) / 1048576;
-                console.log('[FS] compressed:', srcC.size, tgtC.size, 'total MB:', totalMB.toFixed(2));
 
                 fsShowLoading('Upload & proses... (bisa 30-60 detik)');
 
@@ -1951,6 +2029,274 @@
 
     if (fsSaveBtn) {
         fsSaveBtn.addEventListener('click', async function () {
+            const url = this.dataset.url;
+            const filename = this.dataset.filename;
+            if (!url) return;
+
+            if (url.startsWith('data:')) {
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                a.click();
+                return;
+            }
+
+            try {
+                const res = await fetch(url);
+                const blob = await res.blob();
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                setTimeout(() => URL.revokeObjectURL(link.href), 5000);
+            } catch (e) {
+                window.open(url, '_blank');
+            }
+        });
+    }
+
+    // ============================================================
+    //  VOICE CHANGER
+    // ============================================================
+    const VC_API = 'https://api-soundcloud.vercel.app/api/v2/voice-changer';
+
+    const VC_VOICES = [
+        { id: 'en-US-natalie',   name: 'Natalie',   gender: 'f', accent: 'US' },
+        { id: 'en-US-marcus',    name: 'Marcus',    gender: 'm', accent: 'US' },
+        { id: 'en-US-terrell',   name: 'Terrell',   gender: 'm', accent: 'US' },
+        { id: 'en-US-ariana',    name: 'Ariana',    gender: 'f', accent: 'US' },
+        { id: 'en-US-miles',     name: 'Miles',     gender: 'm', accent: 'US' },
+        { id: 'en-US-zion',      name: 'Zion',      gender: 'm', accent: 'US' },
+        { id: 'en-US-amara',     name: 'Amara',     gender: 'f', accent: 'US' },
+        { id: 'en-US-cooper',    name: 'Cooper',    gender: 'm', accent: 'US' },
+        { id: 'en-US-iris',      name: 'Iris',      gender: 'f', accent: 'US' },
+        { id: 'en-US-daisy',     name: 'Daisy',     gender: 'f', accent: 'US' },
+        { id: 'en-US-julia',     name: 'Julia',     gender: 'f', accent: 'US' },
+        { id: 'en-US-daniel',    name: 'Daniel',    gender: 'm', accent: 'US' },
+        { id: 'en-US-ronnie',    name: 'Ronnie',    gender: 'm', accent: 'US' },
+        { id: 'en-US-michelle',  name: 'Michelle',  gender: 'f', accent: 'US' },
+        { id: 'en-US-phoebe',    name: 'Phoebe',    gender: 'f', accent: 'US' },
+        { id: 'en-US-caleb',     name: 'Caleb',     gender: 'm', accent: 'US' },
+        { id: 'en-US-charlotte', name: 'Charlotte', gender: 'f', accent: 'US' },
+        { id: 'en-US-dylan',     name: 'Dylan',     gender: 'm', accent: 'US' },
+        { id: 'en-US-lucas',     name: 'Lucas',     gender: 'm', accent: 'US' },
+        { id: 'en-US-edmund',    name: 'Edmund',    gender: 'm', accent: 'US' },
+        { id: 'en-US-wayne',     name: 'Wayne',     gender: 'm', accent: 'US' },
+        { id: 'en-US-samantha',  name: 'Samantha',  gender: 'f', accent: 'US' },
+        { id: 'en-UK-benedict',  name: 'Benedict',  gender: 'm', accent: 'UK' },
+        { id: 'en-UK-freddie',   name: 'Freddie',   gender: 'm', accent: 'UK' },
+        { id: 'en-UK-hazel',     name: 'Hazel',     gender: 'f', accent: 'UK' },
+        { id: 'en-UK-hugo',      name: 'Hugo',      gender: 'm', accent: 'UK' },
+        { id: 'en-UK-juliet',    name: 'Juliet',    gender: 'f', accent: 'UK' },
+        { id: 'en-UK-ruby',      name: 'Ruby',      gender: 'f', accent: 'UK' },
+        { id: 'en-AU-harper',    name: 'Harper',    gender: 'm', accent: 'AU' },
+        { id: 'en-AU-ivy',       name: 'Ivy',       gender: 'f', accent: 'AU' },
+        { id: 'en-AU-jimm',      name: 'Jimm',      gender: 'm', accent: 'AU' },
+    ];
+
+    const vcState = {
+        file: null,
+        voiceId: 'en-US-natalie',
+    };
+
+    const vcUpload = document.getElementById('vcUpload');
+    const vcInput = document.getElementById('vcInput');
+    const vcVoices = document.getElementById('vcVoices');
+    const vcGoBtn = document.getElementById('vcGoBtn');
+    const vcLoading = document.getElementById('vcLoading');
+    const vcLoadingText = document.getElementById('vcLoadingText');
+    const vcError = document.getElementById('vcError');
+    const vcResult = document.getElementById('vcResult');
+    const vcInfo = document.getElementById('vcInfo');
+    const vcAudio = document.getElementById('vcAudio');
+    const vcSaveBtn = document.getElementById('vcSaveBtn');
+
+    function vcShowError(msg) {
+        vcError.textContent = msg;
+        vcError.classList.add('show');
+        setTimeout(() => vcError.classList.remove('show'), 7000);
+    }
+    function vcHideError() { vcError.classList.remove('show'); }
+    function vcCheckReady() {
+        vcGoBtn.disabled = !vcState.file;
+    }
+
+    // Render voice list
+    function vcRenderVoices() {
+        vcVoices.innerHTML = VC_VOICES.map(v => {
+            const active = v.id === vcState.voiceId ? 'is-active' : '';
+            const initial = v.name.charAt(0).toUpperCase();
+            const genderClass = v.gender === 'm' ? 'm' : 'f';
+            return `<button class="vc-voice ${active}" data-id="${v.id}">
+                <div class="vc-voice-avatar ${genderClass}">${initial}</div>
+                <div class="vc-voice-info">
+                    <div class="vc-voice-name">${v.name}</div>
+                    <div class="vc-voice-meta">${v.accent} · ${v.gender === 'm' ? 'Pria' : 'Wanita'}</div>
+                </div>
+            </button>`;
+        }).join('');
+
+        // Click handler
+        vcVoices.querySelectorAll('.vc-voice').forEach(btn => {
+            btn.addEventListener('click', () => {
+                vcState.voiceId = btn.dataset.id;
+                vcRenderVoices();
+            });
+        });
+    }
+    vcRenderVoices();
+
+    // Upload handler
+    if (vcUpload) {
+        vcUpload.addEventListener('click', (e) => {
+            if (vcUpload.classList.contains('has-file')) {
+                // Kalau udah ada file, klik clear button aja yang works
+                return;
+            }
+            vcInput.click();
+        });
+
+        vcInput.addEventListener('change', (e) => {
+            const f = e.target.files && e.target.files[0];
+            if (!f) return;
+
+            // Validasi
+            if (f.size > 25 * 1024 * 1024) {
+                vcShowError('File max 25 MB');
+                return;
+            }
+
+            vcState.file = f;
+
+            // Update UI
+            vcUpload.classList.add('has-file');
+            Array.from(vcUpload.children).forEach(c => {
+                if (c !== vcInput) vcUpload.removeChild(c);
+            });
+
+            const sizeMB = (f.size / 1024 / 1024).toFixed(2);
+            const sizeKB = (f.size / 1024).toFixed(0);
+            const sizeStr = f.size > 1024 * 1024 ? sizeMB + ' MB' : sizeKB + ' KB';
+
+            const row = document.createElement('div');
+            row.className = 'vc-file-row';
+            row.innerHTML = `
+                <div class="vc-file-icon">🎵</div>
+                <div class="vc-file-meta">
+                    <div class="vc-file-name">${f.name}</div>
+                    <div class="vc-file-sub">${sizeStr}</div>
+                </div>
+                <button class="vc-file-clear" type="button">✕</button>
+            `;
+            vcUpload.insertBefore(row, vcInput);
+
+            // Clear button
+            row.querySelector('.vc-file-clear').addEventListener('click', (e) => {
+                e.stopPropagation();
+                vcState.file = null;
+                vcUpload.classList.remove('has-file');
+                Array.from(vcUpload.children).forEach(c => {
+                    if (c !== vcInput) vcUpload.removeChild(c);
+                });
+                // Restore default UI
+                const icon = document.createElement('div');
+                icon.className = 'vc-upload-icon';
+                icon.innerHTML = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="vcGradUpload2" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#a855f7"/>
+                            <stop offset="100%" stop-color="#6366f1"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M12 3v14M6 13l6 6 6-6" stroke="url(#vcGradUpload2)" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M5 21h14" stroke="url(#vcGradUpload2)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                </svg>`;
+                const t = document.createElement('div');
+                t.className = 'vc-upload-title';
+                t.textContent = 'Pilih file audio';
+                const s = document.createElement('div');
+                s.className = 'vc-upload-sub';
+                s.textContent = 'MP3 / WAV / M4A · Max 3 menit · Max 25 MB';
+                vcUpload.insertBefore(icon, vcInput);
+                vcUpload.insertBefore(t, vcInput);
+                vcUpload.insertBefore(s, vcInput);
+                vcInput.value = '';
+                vcCheckReady();
+            });
+
+            vcCheckReady();
+        });
+    }
+
+    // Convert handler
+    if (vcGoBtn) {
+        vcGoBtn.addEventListener('click', async () => {
+            if (!vcState.file) return;
+
+            vcHideError();
+            vcResult.classList.remove('show');
+            vcGoBtn.disabled = true;
+            vcLoadingText.textContent = 'Upload & proses...';
+            vcLoading.classList.add('show');
+
+            const t0 = Date.now();
+            let timer = setInterval(() => {
+                const s = Math.round((Date.now() - t0) / 1000);
+                vcLoadingText.textContent = `Memproses... (${s}s) · bisa 15-40 detik`;
+            }, 1000);
+
+            try {
+                const fd = new FormData();
+                fd.append('file', vcState.file);
+                fd.append('voice_id', vcState.voiceId);
+
+                const res = await fetch(VC_API, { method: 'POST', body: fd });
+                const ct = res.headers.get('content-type') || '';
+
+                if (!ct.includes('application/json')) {
+                    const text = await res.text();
+                    throw new Error('Server balikin bukan JSON: ' + text.substring(0, 120));
+                }
+
+                const json = await res.json();
+                if (!res.ok || !json.success) {
+                    throw new Error(json.error || json.message || `HTTP ${res.status}`);
+                }
+
+                const data = json.data;
+                const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
+
+                // Preview audio
+                const audioSrc = data.outputDataUrl || data.audioUrl;
+                if (!audioSrc) throw new Error('Tidak ada URL audio hasil');
+
+                vcAudio.src = audioSrc;
+                vcAudio.load();
+
+                const voiceInfo = VC_VOICES.find(v => v.id === data.voiceId);
+                const voiceName = voiceInfo ? voiceInfo.name : data.voiceId;
+                vcInfo.textContent = `✅ Selesai dalam ${elapsed}s · Voice: ${voiceName}`;
+
+                vcSaveBtn.dataset.url = audioSrc;
+                vcSaveBtn.dataset.filename = `voicechanger_${data.voiceId}_${Date.now()}.wav`;
+                vcSaveBtn.style.display = 'inline-flex';
+
+                vcResult.classList.add('show');
+            } catch (err) {
+                vcShowError(err.message || 'Gagal convert suara');
+            } finally {
+                if (timer) clearInterval(timer);
+                vcLoading.classList.remove('show');
+                vcGoBtn.disabled = false;
+            }
+        });
+    }
+
+    // Save button
+    if (vcSaveBtn) {
+        vcSaveBtn.addEventListener('click', async function () {
             const url = this.dataset.url;
             const filename = this.dataset.filename;
             if (!url) return;
