@@ -402,6 +402,30 @@
     }
     .input-group input::placeholder, .game-input::placeholder { color: var(--text-faint); }
 
+    .paste-btn {
+        flex-shrink: 0;
+        width: 44px;
+        padding: 0;
+        border: 2px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--surface);
+        color: var(--text);
+        font-size: 16px;
+        cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        transition: all 0.15s ease;
+    }
+    .paste-btn:hover { background: var(--accent-soft); transform: translate(-1px, -1px); }
+    .paste-btn:active { transform: translate(0, 0); }
+    .paste-btn.pasted { background: var(--accent); border-color: var(--border); }
+    .paste-btn svg { width: 19px; height: 19px; display: block; pointer-events: none; }
+    .paste-btn .pb-icon-check,
+    .paste-btn .pb-icon-warn { display: none; }
+    .paste-btn.pasted .pb-icon-clip { display: none; }
+    .paste-btn.pasted .pb-icon-check { display: block; }
+    .paste-btn.pb-error .pb-icon-clip { display: none; }
+    .paste-btn.pb-error .pb-icon-warn { display: block; }
+
     .btn-download {
         padding: 11px 18px;
         border: 2px solid var(--border);
@@ -2686,6 +2710,7 @@
         </div>
         <div class="input-group">
             <input type="text" id="ttUrl" placeholder="Tempel tautan TikTok..." />
+            <button type="button" class="paste-btn" data-paste-target="ttUrl" title="Tempel dari clipboard"><svg class="pb-icon-clip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1.3"/><path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2"/><path d="M9 12.5h6M9 16h4"/></svg><svg class="pb-icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6"/></svg><svg class="pb-icon-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 2.5 20h19L12 3.5z"/><line x1="12" y1="9.5" x2="12" y2="14"/><circle cx="12" cy="17.2" r="0.15" fill="currentColor"/></svg></button>
         </div>
         <button class="btn-download" id="ttDownloadBtn" style="width:100%;">⬇ Download</button>
         <div class="loading" id="ttLoading"><div class="spinner-ring"></div><div>Memproses...</div></div>
@@ -2727,6 +2752,7 @@
         </div>
         <div class="input-group">
             <input type="text" id="igUrl" placeholder="Tempel tautan Instagram..." />
+            <button type="button" class="paste-btn" data-paste-target="igUrl" title="Tempel dari clipboard"><svg class="pb-icon-clip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1.3"/><path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2"/><path d="M9 12.5h6M9 16h4"/></svg><svg class="pb-icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6"/></svg><svg class="pb-icon-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 2.5 20h19L12 3.5z"/><line x1="12" y1="9.5" x2="12" y2="14"/><circle cx="12" cy="17.2" r="0.15" fill="currentColor"/></svg></button>
         </div>
         <button class="btn-download" id="igDownloadBtn" style="width:100%;">⬇ Download Media</button>
         <div class="loading" id="igLoading"><div class="spinner-ring"></div><div>Memproses...</div></div>
@@ -2756,6 +2782,7 @@
         </div>
         <div class="input-group">
             <input type="text" id="ytUrl" placeholder="Tempel tautan YouTube..." />
+            <button type="button" class="paste-btn" data-paste-target="ytUrl" title="Tempel dari clipboard"><svg class="pb-icon-clip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1.3"/><path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2"/><path d="M9 12.5h6M9 16h4"/></svg><svg class="pb-icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6"/></svg><svg class="pb-icon-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 2.5 20h19L12 3.5z"/><line x1="12" y1="9.5" x2="12" y2="14"/><circle cx="12" cy="17.2" r="0.15" fill="currentColor"/></svg></button>
         </div>
         <div class="btn-group-top">
             <button class="btn-download btn-music" id="ytMusicBtn">🎵 Audio (M4A)</button>
@@ -2796,6 +2823,7 @@
         </div>
         <div class="input-group">
             <input type="text" id="scUrl" placeholder="Tempel tautan SoundCloud..." />
+            <button type="button" class="paste-btn" data-paste-target="scUrl" title="Tempel dari clipboard"><svg class="pb-icon-clip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1.3"/><path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2"/><path d="M9 12.5h6M9 16h4"/></svg><svg class="pb-icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6"/></svg><svg class="pb-icon-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 2.5 20h19L12 3.5z"/><line x1="12" y1="9.5" x2="12" y2="14"/><circle cx="12" cy="17.2" r="0.15" fill="currentColor"/></svg></button>
         </div>
         <button class="btn-download btn-music" id="scDownloadBtn" style="width:100%;">🔍 Cari & Download</button>
         <div class="loading" id="scLoading"><div class="spinner-ring"></div><div>Memproses...</div></div>
@@ -2825,6 +2853,7 @@
         </div>
         <div class="input-group">
             <input type="text" id="spUrl" placeholder="Tempel tautan lagu Spotify..." />
+            <button type="button" class="paste-btn" data-paste-target="spUrl" title="Tempel dari clipboard"><svg class="pb-icon-clip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1.3"/><path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2"/><path d="M9 12.5h6M9 16h4"/></svg><svg class="pb-icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6"/></svg><svg class="pb-icon-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 2.5 20h19L12 3.5z"/><line x1="12" y1="9.5" x2="12" y2="14"/><circle cx="12" cy="17.2" r="0.15" fill="currentColor"/></svg></button>
         </div>
         <button class="btn-download btn-spotify" id="spDownloadBtn" style="width:100%;">⬇ Download MP3</button>
         <div class="loading" id="spLoading"><div class="spinner-ring"></div><div>Memproses...</div></div>
@@ -2855,6 +2884,7 @@
 
         <div class="input-group">
             <input type="text" id="sfUrl" placeholder="Tempel tautan video Facebook..." />
+            <button type="button" class="paste-btn" data-paste-target="sfUrl" title="Tempel dari clipboard"><svg class="pb-icon-clip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1.3"/><path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2"/><path d="M9 12.5h6M9 16h4"/></svg><svg class="pb-icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6"/></svg><svg class="pb-icon-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 2.5 20h19L12 3.5z"/><line x1="12" y1="9.5" x2="12" y2="14"/><circle cx="12" cy="17.2" r="0.15" fill="currentColor"/></svg></button>
         </div>
         <button class="btn-download" id="sfGoBtn" style="width:100%;">
             🔍 Cari Video
@@ -2888,6 +2918,7 @@
 
     <div class="input-group">
         <input type="text" id="twUrl" placeholder="Tempel tautan tweet X / Twitter..." />
+        <button type="button" class="paste-btn" data-paste-target="twUrl" title="Tempel dari clipboard"><svg class="pb-icon-clip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1.3"/><path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2"/><path d="M9 12.5h6M9 16h4"/></svg><svg class="pb-icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12.5 9.5 18 20 6"/></svg><svg class="pb-icon-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 2.5 20h19L12 3.5z"/><line x1="12" y1="9.5" x2="12" y2="14"/><circle cx="12" cy="17.2" r="0.15" fill="currentColor"/></svg></button>
     </div>
     <button class="btn-download" id="twDownloadBtn" style="width:100%;">⬇ Download Media</button>
 
@@ -6384,6 +6415,34 @@
 
 
     console.log('%cxs0ciety HUB ready', 'color:#6366f1;font-weight:600;font-size:12px');
+
+    // Auto-paste dari clipboard
+    document.querySelectorAll('.paste-btn[data-paste-target]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+            const input = document.getElementById(btn.getAttribute('data-paste-target'));
+            if (!input) return;
+            try {
+                const text = await navigator.clipboard.readText();
+                if (!text) throw new Error('empty');
+                input.value = text.trim();
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+                input.focus();
+
+                btn.classList.remove('pb-error');
+                btn.classList.add('pasted');
+                setTimeout(() => btn.classList.remove('pasted'), 1200);
+            } catch (err) {
+                input.focus();
+                input.select();
+                try {
+                    document.execCommand('paste');
+                } catch (e2) {}
+                btn.classList.remove('pasted');
+                btn.classList.add('pb-error');
+                setTimeout(() => btn.classList.remove('pb-error'), 1200);
+            }
+        });
+    });
 </script>
 </body>
     </html>
