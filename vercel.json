@@ -1,41 +1,5 @@
 {
   "version": 2,
-  "functions": {
-    "api/v2/soundcloud.js": {
-      "memory": 1024,
-      "maxDuration": 30
-    },
-    "api/v2/faceswap.js": {
-      "memory": 1024,
-      "maxDuration": 60
-    },
-    "api/v2/voice-changer.js": {
-      "memory": 1024,
-      "maxDuration": 60
-    },
-    "api/v2/mail.js": {
-      "memory": 512,
-      "maxDuration": 30
-    }
-  },
-  "rewrites": [
-    {
-      "source": "/api/v2/soundcloud",
-      "destination": "/api/v2/soundcloud.js"
-    },
-    {
-      "source": "/api/v2/faceswap",
-      "destination": "/api/v2/faceswap.js"
-    },
-    {
-      "source": "/api/v2/voice-changer",
-      "destination": "/api/v2/voice-changer.js"
-    },
-    {
-      "source": "/api/v2/mail",
-      "destination": "/api/v2/mail.js"
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",
