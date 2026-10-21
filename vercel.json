@@ -1,10 +1,98 @@
 {
   "version": 2,
-  "cleanUrls": true,
+  "functions": {
+    "api/v2/soundcloud.js": {
+      "memory": 1024,
+      "maxDuration": 30
+    },
+    "api/v2/faceswap.js": {
+      "memory": 1024,
+      "maxDuration": 60
+    },
+    "api/v2/voice-changer.js": {
+      "memory": 1024,
+      "maxDuration": 60
+    },
+    "api/v2/mail.js": {
+      "memory": 512,
+      "maxDuration": 30
+    }
+  },
   "rewrites": [
     {
-      "source": "/",
-      "destination": "/index.html"
+      "source": "/api/v2/soundcloud",
+      "destination": "/api/v2/soundcloud.js"
+    },
+    {
+      "source": "/api/v2/faceswap",
+      "destination": "/api/v2/faceswap.js"
+    },
+    {
+      "source": "/api/v2/voice-changer",
+      "destination": "/api/v2/voice-changer.js"
+    },
+    {
+      "source": "/api/v2/mail",
+      "destination": "/api/v2/mail.js"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' blob: https:; connect-src 'self' https:; worker-src 'self' blob:; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=31536000; includeSubDomains"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=(), serial=(), interest-cohort=()"
+        },
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin-allow-popups"
+        },
+        {
+          "key": "Cross-Origin-Embedder-Policy",
+          "value": "credentialless"
+        },
+        {
+          "key": "Cross-Origin-Resource-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "X-Permitted-Cross-Domain-Policies",
+          "value": "none"
+        },
+        {
+          "key": "X-DNS-Prefetch-Control",
+          "value": "off"
+        },
+        {
+          "key": "Origin-Agent-Cluster",
+          "value": "?1"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "0"
+        }
+      ]
     }
   ]
 }
