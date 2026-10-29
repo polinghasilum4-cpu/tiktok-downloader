@@ -3587,20 +3587,19 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.0/axios.min.js"></script>
 
 <script>
-/* ===================== xs0ciety PROXY ===================== */
-const XS_PROXY = "https://xs0ciety-proxy.vercel.app/api/proxy";
-
-// Helper: panggil lewat proxy
-function xsProxyUrl(target, params = {}) {
-  const q = new URLSearchParams({ target, ...params });
-  return XS_PROXY + "?" + q.toString();
-}
-
-async function xsFetch(target, options = {}, params = {}) {
-  const url = xsProxyUrl(target, params);
-  return fetch(url, options);
-}
-/* ========================================================= */
+/* ======================================================================
+ * xs0ciety API — via BFF gateway (same-origin)
+ * ======================================================================
+ * Semua fetch/axios di bawah manggil langsung ke /api/gw/<nama> di
+ * domain sendiri (xs0cietylabsz.biz.id). Gak ada API key atau domain
+ * backend asli yang kelihatan di kode client — diteruskan server-side
+ * oleh fungsi di /api/gw/*.js (project "frontend-gw" yang di-deploy
+ * bareng index.html ini, lihat README_BFF_GATEWAY.md).
+ *
+ * Gak ada yang perlu diganti di file ini. Yang perlu diisi cuma ENV di
+ * Vercel project ini: BACKEND_API_KEY, INSTAGRAM_API_BASE,
+ * SPOTIFY_API_BASE, SOUNDCLOUD_API_BASE.
+ * ====================================================================== */
 </script>
 
 
@@ -3858,7 +3857,7 @@ async function xsFetch(target, options = {}, params = {}) {
     //  INSTAGRAM
     // ============================================================
     async function instagramDl(url) {
-        const apiUrl = `https://xs0ciety-proxy.vercel.app/api/proxy?target=instagram&url=${encodeURIComponent(url)}`;
+        const apiUrl = `/api/gw/instagram?url=${encodeURIComponent(url)}`;
         const res = await axios.get(apiUrl, { timeout: 60000 });
         const result = res.data;
         if (!result.status || !result.data) throw new Error(result.error || 'Gagal mengambil data media Instagram.');
@@ -4111,7 +4110,7 @@ async function xsFetch(target, options = {}, params = {}) {
     // ============================================================
     async function soundcloudDl(scUrl) {
         if (!scUrl.includes('soundcloud.com')) throw new Error('Masukkan URL SoundCloud yang valid');
-        const apiUrl = `https://xs0ciety-proxy.vercel.app/api/proxy?target=soundcloud&url=${encodeURIComponent(scUrl)}`;
+        const apiUrl = `/api/gw/soundcloud?url=${encodeURIComponent(scUrl)}`;
         const res = await axios.get(apiUrl, { timeout: 30000 });
         const data = res.data;
         if (!data || !data.status || !data.data) throw new Error('Gagal mengambil data dari SoundCloud');
@@ -4179,7 +4178,7 @@ async function xsFetch(target, options = {}, params = {}) {
     //  SPOTIFY
     // ============================================================
     async function spotifyDl(input) {
-        const apiUrl = `https://xs0ciety-proxy.vercel.app/api/proxy?target=spotify&url=${encodeURIComponent(input)}`;
+        const apiUrl = `/api/gw/spotify?url=${encodeURIComponent(input)}`;
         const res = await axios.get(apiUrl, { timeout: 60000 });
 
         if (!res.data || !res.data.status || !res.data.data) {
@@ -4311,7 +4310,7 @@ async function xsFetch(target, options = {}, params = {}) {
     // ============================================================
     //  FACE SWAP
     // ============================================================
-    const FS_API = 'https://xs0ciety-proxy.vercel.app/api/proxy?target=faceswap';
+    const FS_API = '/api/gw/faceswap';
 
     const fsState = {
         sourceFile: null,
@@ -4522,7 +4521,7 @@ async function xsFetch(target, options = {}, params = {}) {
     // ============================================================
     //  VOICE CHANGER
     // ============================================================
-    const VC_API = 'https://xs0ciety-proxy.vercel.app/api/proxy?target=voice-changer';
+    const VC_API = '/api/gw/voice-changer';
 
     const VC_VOICES = [
         { id: 'en-US-natalie',   name: 'Natalie',   gender: 'f', accent: 'US' },
@@ -5443,7 +5442,7 @@ async function xsFetch(target, options = {}, params = {}) {
     // ============================================================
     //  UPLOAD FILE
     // ============================================================
-    const UL_API = 'https://xs0ciety-proxy.vercel.app/api/proxy?target=upload';
+    const UL_API = '/api/gw/upload';
 
     const ulState = {
         file: null,
@@ -5757,7 +5756,7 @@ async function xsFetch(target, options = {}, params = {}) {
     //  FAKE QUOTE iOS — via Vercel proxy
     // ============================================================
     (function initIqc() {
-        const IQC_API = 'https://xs0ciety-proxy.vercel.app/api/proxy?target=iqc';
+        const IQC_API = '/api/gw/iqc';
 
         const iqcText    = document.getElementById('iqcText');
         const iqcCount   = document.getElementById('iqcCount');
@@ -5872,7 +5871,7 @@ async function xsFetch(target, options = {}, params = {}) {
     //  FACEBOOK DOWNLOADER
     // ============================================================
     (function initFacebookDl() {
-        const SF_API = 'https://xs0ciety-proxy.vercel.app/api/proxy?target=savefrom';
+        const SF_API = '/api/gw/savefrom';
 
         const sfUrl         = document.getElementById('sfUrl');
         const sfGoBtn       = document.getElementById('sfGoBtn');
@@ -6017,7 +6016,7 @@ async function xsFetch(target, options = {}, params = {}) {
     //  TWITTER / X
     // ============================================================
     (function initTwitterDl() {
-        const TW_API = 'https://xs0ciety-proxy.vercel.app/api/proxy?target=twitter';
+        const TW_API = '/api/gw/twitter';
 
         const twUrl         = document.getElementById('twUrl');
         const twDownloadBtn = document.getElementById('twDownloadBtn');
@@ -6058,7 +6057,7 @@ async function xsFetch(target, options = {}, params = {}) {
             try {
                 const res = await axios.get(TW_API, {
                     params: { url, lang: 'id' },
-                    timeout: 60000
+                    timeout: 60000,
                 });
 
                 if (!res.data || !res.data.success || !res.data.data) {
@@ -6159,7 +6158,7 @@ async function xsFetch(target, options = {}, params = {}) {
     })();
     
     (function initPinterestDl() {
-    const PIN_API = 'https://xs0ciety-proxy.vercel.app/api/proxy?target=pinterest';
+    const PIN_API = '/api/gw/pinterest';
     const pinUrl = document.getElementById('pinUrl');
     const pinDownloadBtn = document.getElementById('pinDownloadBtn');
     const pinLoading = document.getElementById('pinLoading');
@@ -6255,7 +6254,7 @@ async function xsFetch(target, options = {}, params = {}) {
     //  PXBEE TEXT REMOVER
     // ============================================================
     (function initPXBee() {
-        const PX_API = 'https://xs0ciety-proxy.vercel.app/api/proxy?target=pxbee';
+        const PX_API = '/api/gw/pxbee';
         const MAX_SIZE = 10 * 1024 * 1024;
 
         const pxUpload     = document.getElementById('pxUpload');
@@ -6524,7 +6523,7 @@ async function xsFetch(target, options = {}, params = {}) {
 //  QR GENERATOR
 // ============================================================
 (function initQrGen() {
-    const GEN_API = 'https://xs0ciety-proxy.vercel.app/api/proxy?target=qr';
+    const GEN_API = '/api/gw/qr';
 
     const genInput       = document.getElementById('genInput');
     const genGoBtn       = document.getElementById('genGoBtn');
@@ -6639,11 +6638,11 @@ async function xsFetch(target, options = {}, params = {}) {
     (function () {
         const ORIGINS = {
             tikwm:        { url: 'https://www.tikwm.com/api/' },
-            instagramV2:  { url: 'https://xs0ciety-proxy.vercel.app/api/proxy?target=instagram' },
+            instagramV2:  { url: '/api/gw/instagram' },
             ytultra:      { url: 'https://api.ytultra.com/ikool/youtube/download' },
-            soundcloudV2: { url: 'https://xs0ciety-proxy.vercel.app/api/proxy?target=savefrom' },
-            spotifyV2:    { url: 'https://xs0ciety-proxy.vercel.app/api/proxy?target=spotify' },
-            generateV2:   { url: 'https://xs0ciety-proxy.vercel.app/api/proxy?target=qr' },
+            soundcloudV2: { url: '/api/gw/savefrom' },
+            spotifyV2:    { url: '/api/gw/spotify' },
+            generateV2:   { url: '/api/gw/qr' },
         };
         const TOOLS = {
             tiktok:     { label: 'TikTok',       origin: 'tikwm' },
