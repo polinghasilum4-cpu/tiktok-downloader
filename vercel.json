@@ -1,10 +1,5 @@
 {
   "version": 2,
-  "functions": {
-    "api/v2/[name].js": {
-      "maxDuration": 60
-    }
-  },
   "headers": [
     {
       "source": "/(.*)",
