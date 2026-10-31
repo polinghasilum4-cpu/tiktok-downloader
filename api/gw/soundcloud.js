@@ -1,14 +1,72 @@
-// Auto-generated BFF gateway for /api/v2/soundcloud
-// Browser -> (domain sendiri) /api/gw/soundcloud -> backend asli (server-to-server, API key gak pernah ke browser)
-const { rateLimit, sameOriginOnly, forward } = require('../_lib/gw');
+const axios = require("axios");
 
-
+const { sameOriginOnly, rateLimit } = require('../_lib/security');
 module.exports = async (req, res) => {
-    if (!sameOriginOnly(req, res)) return;
-    if (!rateLimit(req, res)) return;
-    try {
-        await forward({ req, res, baseUrl: process.env.SOUNDCLOUD_API_BASE, path: '/api/v2/soundcloud' });
-    } catch (e) {
-        res.status(502).json({ success: false, error: 'Gateway error: ' + e.message });
+  // CORS Headers
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+  if (!rateLimit(req, res)) return;
+  if (!sameOriginOnly(req, res)) return;
+
+
+  const scUrl = req.query.url || req.body?.url;
+
+  if (!scUrl) {
+    return res.status(400).json({
+      status: false,
+      message: "Parameter 'url' wajib diisi!",
+      example: "/api/v2/soundcloud?url=https://soundcloud.com/artist/track-name"
+    });
+  }
+
+  try {
+    const response = await axios({
+      method: "post",
+      url: "https://api.toolenium.com/v1/info",
+      headers: {
+        "accept": "*/*",
+        "content-type": "application/json",
+        "origin": "https://scload.com",
+        "referer": "https://scload.com/",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+      },
+      data: {
+        url: scUrl
+      },
+      timeout: 30000
+    });
+
+    const data = response.data;
+
+    if (!data || !data.formats || data.formats.length === 0) {
+      return res.status(404).json({
+        status: false,
+        message: "Gagal mengambil info trek SoundCloud atau trek tidak ditemukan."
+      });
     }
+
+    const chosen = data.formats[0];
+    let ext = chosen.audio_ext || "mp3";
+    if (ext === "none") ext = "mp3";
+
+    return res.status(200).json({
+      status: true,
+      data: {
+        title: data.title || "SoundCloud Track",
+        duration: data.duration || "N/A",
+        thumbnail: data.thumbnail || "https://i.scdn.co/image/ab67616d0000b273",
+        format: chosen.format_id || ext,
+        downloadUrl: chosen.url,
+        ext: ext
+      }
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: false,
+      message: "Terjadi kesalahan server.",
+      error: error.response?.data || error.message
+    });
+  }
 };
