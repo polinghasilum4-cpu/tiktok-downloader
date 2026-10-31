@@ -70,6 +70,29 @@ instagram), plus `puppeteer-core` + `@sparticuz/chromium` (dipakai
 **dibuang** karena gak ada handler manapun yang benar-benar makainya
 (dependency nganggur dari repo asli).
 
+## Update: fix "No more than 12 Serverless Functions" (Vercel Hobby plan)
+
+Vercel Hobby plan cuma boleh 12 Serverless Function per deployment. 15 file
+terpisah di `api/v2/*.js` = 15 function, kena block pas deploy.
+
+**Fix**: 15 handler dipindah ke `api/_handlers/*.js` (folder berawalan
+underscore → otomatis gak dihitung Vercel sebagai function). Satu file baru
+`api/v2/[name].js` (dynamic route) jadi SATU-SATUNYA function yang nampung
+semua 15 endpoint — Vercel route `/api/v2/instagram`, `/api/v2/twitter`,
+dst ke file ini, dengan `req.query.name` nunjukin endpoint mana yang diminta.
+
+**URL yang dipanggil `index.html` TIDAK BERUBAH SAMA SEKALI** — `/api/v2/instagram`
+tetap `/api/v2/instagram` dari sudut pandang browser, cuma di belakangnya
+sekarang 1 function yang nge-handle, bukan 15. Total function project ini
+sekarang: **1** (jauh di bawah limit 12).
+
+Detail teknis buat yang penasaran: `require()` tiap handler di dalem
+`[name].js` sengaja ditulis pakai string literal (bukan variabel) dibungkus
+arrow function, biar bundler Vercel (Node File Trace) tetep bisa ngikutin
+dependency-nya pas build, TAPI baru beneran di-load pas route itu kepanggil
+(lazy) — jadi request ke `/api/v2/instagram` gak perlu ikut nge-load
+`puppeteer-core` yang cuma dipake `savefrom.js`.
+
 ## File yang berubah dari paket sebelumnya
 - **Dihapus total**: folder `api/gw/` (BFF proxy), `README_BFF_GATEWAY.md`,
   konsep `API_KEYS`/`BACKEND_API_KEY`/`*_API_BASE`.
