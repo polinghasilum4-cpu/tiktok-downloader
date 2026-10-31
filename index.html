@@ -3588,17 +3588,16 @@
 
 <script>
 /* ======================================================================
- * xs0ciety API — via BFF gateway (same-origin)
+ * xs0ciety API — satu project, same-origin
  * ======================================================================
- * Semua fetch/axios di bawah manggil langsung ke /api/gw/<nama> di
- * domain sendiri (xs0cietylabsz.biz.id). Gak ada API key atau domain
- * backend asli yang kelihatan di kode client — diteruskan server-side
- * oleh fungsi di /api/gw/*.js (project "frontend-gw" yang di-deploy
- * bareng index.html ini, lihat README_BFF_GATEWAY.md).
+ * Frontend dan backend sekarang satu deployment yang sama. Semua
+ * fetch/axios di bawah manggil langsung ke /api/v2/<nama> di domain
+ * sendiri (xs0cietylabsz.biz.id) — gak ada API key atau domain
+ * backend terpisah sama sekali, jadi gak ada apapun yang kelihatan di
+ * DevTools selain path endpoint-nya sendiri.
  *
- * Gak ada yang perlu diganti di file ini. Yang perlu diisi cuma ENV di
- * Vercel project ini: BACKEND_API_KEY, INSTAGRAM_API_BASE,
- * SPOTIFY_API_BASE, SOUNDCLOUD_API_BASE.
+ * Gak ada ENV wajib buat fitur ini jalan. SELF_ORIGIN opsional kalau
+ * domain lo beda dari default yang di-hardcode di api/_lib/security.js.
  * ====================================================================== */
 </script>
 
@@ -3857,7 +3856,7 @@
     //  INSTAGRAM
     // ============================================================
     async function instagramDl(url) {
-        const apiUrl = `/api/gw/instagram?url=${encodeURIComponent(url)}`;
+        const apiUrl = `/api/v2/instagram?url=${encodeURIComponent(url)}`;
         const res = await axios.get(apiUrl, { timeout: 60000 });
         const result = res.data;
         if (!result.status || !result.data) throw new Error(result.error || 'Gagal mengambil data media Instagram.');
@@ -4110,7 +4109,7 @@
     // ============================================================
     async function soundcloudDl(scUrl) {
         if (!scUrl.includes('soundcloud.com')) throw new Error('Masukkan URL SoundCloud yang valid');
-        const apiUrl = `/api/gw/soundcloud?url=${encodeURIComponent(scUrl)}`;
+        const apiUrl = `/api/v2/soundcloud?url=${encodeURIComponent(scUrl)}`;
         const res = await axios.get(apiUrl, { timeout: 30000 });
         const data = res.data;
         if (!data || !data.status || !data.data) throw new Error('Gagal mengambil data dari SoundCloud');
@@ -4178,7 +4177,7 @@
     //  SPOTIFY
     // ============================================================
     async function spotifyDl(input) {
-        const apiUrl = `/api/gw/spotify?url=${encodeURIComponent(input)}`;
+        const apiUrl = `/api/v2/spotify?url=${encodeURIComponent(input)}`;
         const res = await axios.get(apiUrl, { timeout: 60000 });
 
         if (!res.data || !res.data.status || !res.data.data) {
@@ -4310,7 +4309,7 @@
     // ============================================================
     //  FACE SWAP
     // ============================================================
-    const FS_API = '/api/gw/faceswap';
+    const FS_API = '/api/v2/faceswap';
 
     const fsState = {
         sourceFile: null,
@@ -4521,7 +4520,7 @@
     // ============================================================
     //  VOICE CHANGER
     // ============================================================
-    const VC_API = '/api/gw/voice-changer';
+    const VC_API = '/api/v2/voice-changer';
 
     const VC_VOICES = [
         { id: 'en-US-natalie',   name: 'Natalie',   gender: 'f', accent: 'US' },
@@ -5442,7 +5441,7 @@
     // ============================================================
     //  UPLOAD FILE
     // ============================================================
-    const UL_API = '/api/gw/upload';
+    const UL_API = '/api/v2/upload';
 
     const ulState = {
         file: null,
@@ -5756,7 +5755,7 @@
     //  FAKE QUOTE iOS — via Vercel proxy
     // ============================================================
     (function initIqc() {
-        const IQC_API = '/api/gw/iqc';
+        const IQC_API = '/api/v2/iqc';
 
         const iqcText    = document.getElementById('iqcText');
         const iqcCount   = document.getElementById('iqcCount');
@@ -5871,7 +5870,7 @@
     //  FACEBOOK DOWNLOADER
     // ============================================================
     (function initFacebookDl() {
-        const SF_API = '/api/gw/savefrom';
+        const SF_API = '/api/v2/savefrom';
 
         const sfUrl         = document.getElementById('sfUrl');
         const sfGoBtn       = document.getElementById('sfGoBtn');
@@ -6016,7 +6015,7 @@
     //  TWITTER / X
     // ============================================================
     (function initTwitterDl() {
-        const TW_API = '/api/gw/twitter';
+        const TW_API = '/api/v2/twitter';
 
         const twUrl         = document.getElementById('twUrl');
         const twDownloadBtn = document.getElementById('twDownloadBtn');
@@ -6158,7 +6157,7 @@
     })();
     
     (function initPinterestDl() {
-    const PIN_API = '/api/gw/pinterest';
+    const PIN_API = '/api/v2/pinterest';
     const pinUrl = document.getElementById('pinUrl');
     const pinDownloadBtn = document.getElementById('pinDownloadBtn');
     const pinLoading = document.getElementById('pinLoading');
@@ -6254,7 +6253,7 @@
     //  PXBEE TEXT REMOVER
     // ============================================================
     (function initPXBee() {
-        const PX_API = '/api/gw/pxbee';
+        const PX_API = '/api/v2/pxbee';
         const MAX_SIZE = 10 * 1024 * 1024;
 
         const pxUpload     = document.getElementById('pxUpload');
@@ -6523,7 +6522,7 @@
 //  QR GENERATOR
 // ============================================================
 (function initQrGen() {
-    const GEN_API = '/api/gw/qr';
+    const GEN_API = '/api/v2/qr';
 
     const genInput       = document.getElementById('genInput');
     const genGoBtn       = document.getElementById('genGoBtn');
@@ -6638,11 +6637,11 @@
     (function () {
         const ORIGINS = {
             tikwm:        { url: 'https://www.tikwm.com/api/' },
-            instagramV2:  { url: '/api/gw/instagram' },
+            instagramV2:  { url: '/api/v2/instagram' },
             ytultra:      { url: 'https://api.ytultra.com/ikool/youtube/download' },
-            soundcloudV2: { url: '/api/gw/savefrom' },
-            spotifyV2:    { url: '/api/gw/spotify' },
-            generateV2:   { url: '/api/gw/qr' },
+            soundcloudV2: { url: '/api/v2/savefrom' },
+            spotifyV2:    { url: '/api/v2/spotify' },
+            generateV2:   { url: '/api/v2/qr' },
         };
         const TOOLS = {
             tiktok:     { label: 'TikTok',       origin: 'tikwm' },

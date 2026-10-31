@@ -1,7 +1,7 @@
 {
   "version": 2,
   "functions": {
-    "api/gw/*.js": {
+    "api/v2/*.js": {
       "maxDuration": 60
     }
   },
