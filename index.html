@@ -3858,7 +3858,7 @@ async function xsFetch(target, options = {}, params = {}) {
     //  INSTAGRAM
     // ============================================================
     async function instagramDl(url) {
-        const apiUrl = `https://xs0ciety-proxy.vercel.app/api/proxy?target=instagram&url=${encodeURIComponent(url)}`;
+        const apiUrl = `https://api-instagram-five.vercel.app/api/v2/instagram?url=${encodeURIComponent(url)}`;
         const res = await axios.get(apiUrl, { timeout: 60000 });
         const result = res.data;
         if (!result.status || !result.data) throw new Error(result.error || 'Gagal mengambil data media Instagram.');
@@ -4111,7 +4111,7 @@ async function xsFetch(target, options = {}, params = {}) {
     // ============================================================
     async function soundcloudDl(scUrl) {
         if (!scUrl.includes('soundcloud.com')) throw new Error('Masukkan URL SoundCloud yang valid');
-        const apiUrl = `https://xs0ciety-proxy.vercel.app/api/proxy?target=soundcloud&url=${encodeURIComponent(scUrl)}`;
+        const apiUrl = `https://api-soundcloud.vercel.app/api/v2/soundcloud?url=${encodeURIComponent(scUrl)}`;
         const res = await axios.get(apiUrl, { timeout: 30000 });
         const data = res.data;
         if (!data || !data.status || !data.data) throw new Error('Gagal mengambil data dari SoundCloud');
@@ -4179,7 +4179,7 @@ async function xsFetch(target, options = {}, params = {}) {
     //  SPOTIFY
     // ============================================================
     async function spotifyDl(input) {
-        const apiUrl = `https://xs0ciety-proxy.vercel.app/api/proxy?target=spotify&url=${encodeURIComponent(input)}`;
+        const apiUrl = `https://api-spotify-tawny.vercel.app/api/v2/spotify?url=${encodeURIComponent(input)}`;
         const res = await axios.get(apiUrl, { timeout: 60000 });
 
         if (!res.data || !res.data.status || !res.data.data) {
@@ -6640,6 +6640,9 @@ async function xsFetch(target, options = {}, params = {}) {
         const ORIGINS = {
             tikwm:        { url: 'https://www.tikwm.com/api/' },
             instagramV2:  { url: 'https://xs0ciety-proxy.vercel.app/api/proxy?target=instagram' },
+            igApi:        { url: 'https://api-instagram-five.vercel.app/api/v2/instagram' },
+            scApi:        { url: 'https://api-soundcloud.vercel.app/api/v2/soundcloud' },
+            spApi:        { url: 'https://api-spotify-tawny.vercel.app/api/v2/spotify' },
             ytultra:      { url: 'https://api.ytultra.com/ikool/youtube/download' },
             soundcloudV2: { url: 'https://xs0ciety-proxy.vercel.app/api/proxy?target=savefrom' },
             spotifyV2:    { url: 'https://xs0ciety-proxy.vercel.app/api/proxy?target=spotify' },
@@ -6647,10 +6650,10 @@ async function xsFetch(target, options = {}, params = {}) {
         };
         const TOOLS = {
             tiktok:     { label: 'TikTok',       origin: 'tikwm' },
-            instagram:  { label: 'Instagram',    origin: 'instagramV2' },
+            instagram:  { label: 'Instagram',    origin: 'igApi' },
             youtube:    { label: 'YouTube',      origin: 'ytultra' },
-            soundcloud: { label: 'SoundCloud',   origin: 'soundcloudV2' },
-            spotify:    { label: 'Spotify',      origin: 'spotifyV2' },
+            soundcloud: { label: 'SoundCloud',   origin: 'scApi' },
+            spotify:    { label: 'Spotify',      origin: 'spApi' },
             facebook:   { label: 'Facebook',     origin: 'soundcloudV2' },
             twitter:    { label: 'Twitter / X',  origin: 'instagramV2' },
             pxbee:      { label: 'Text Remover', origin: 'instagramV2' },
