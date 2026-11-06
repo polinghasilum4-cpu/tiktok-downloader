@@ -3645,7 +3645,7 @@
             document.body.removeChild(link);
             setTimeout(() => URL.revokeObjectURL(link.href), 5000);
         } catch (e) {
-            window.open(url, '_blank');
+            throw new Error('Gagal mengunduh file');
         }
     }
 
@@ -3853,29 +3853,45 @@
     // ============================================================
     async function instagramDl(url) {
         const apiUrl = `https://api-instagram-five.vercel.app/api/v2/instagram?url=${encodeURIComponent(url)}`;
-        const res = await axios.get(apiUrl, { timeout: 60000 });
+        const res = await axios.get(apiUrl, {
+            timeout: 60000,
+            validateStatus: () => true,
+        });
         const result = res.data;
-        if (!result.status || !result.data) throw new Error(result.error || 'Gagal mengambil data media Instagram.');
+        if (!result || typeof result !== 'object') {
+            throw new Error('Respon API tidak valid');
+        }
 
-        const info = result.data;
-        const resources = info.resources || [];
-        if (resources.length === 0) throw new Error('Tidak ada media ditemukan');
+        // Format baru: { ok, media:[{download,type}] }
+        // Format lama: { status, data:{ resources:[{download_url,format}] } }
+        let resources = [];
+        if (result.ok === true && Array.isArray(result.media) && result.media.length) {
+            resources = result.media.map((m) => ({
+                download_url: m.download,
+                format: String(m.type || '').toLowerCase() === 'video' ? 'mp4' : 'jpg',
+            }));
+        } else if ((result.status === true || result.status) && result.data && Array.isArray(result.data.resources) && result.data.resources.length) {
+            resources = result.data.resources.map((r) => ({
+                download_url: r.download_url,
+                format: r.format || (String(r.download_url || '').includes('mp4') ? 'mp4' : 'jpg'),
+            }));
+        } else {
+            throw new Error(result.error || 'Media Instagram tidak ditemukan');
+        }
 
-        const video = resources.find(r => r.format === 'mp4');
+        const video = resources.find((r) => r.format === 'mp4');
         const resItem = video || resources[0];
         const ext = resItem.format || 'mp4';
+        const info = result.data || {};
 
         return {
-            title: (info.title || "Instagram Media").trim(),
+            title: String(result.title || info.title || result.username || 'Instagram Media').trim(),
             likes: formatNumber(info.like_count || 0),
             comments: formatNumber(info.comment_count || 0),
             mediaUrl: resItem.download_url,
             ext: ext,
             isVideo: ext === 'mp4',
-            resources: resources.map(r => ({
-                download_url: r.download_url,
-                format: r.format || (r.download_url.includes('.mp4') ? 'mp4' : 'jpg')
-            }))
+            resources: resources,
         };
     }
 
