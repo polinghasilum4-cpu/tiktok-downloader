@@ -24,28 +24,28 @@
 </script>
 <style>
     :root {
-        --bg: #faf8ef;
-        --surface: #ffffff;
-        --surface-2: #f3f1e0;
-        --surface-3: #eae7d2;
+        --bg: #f7f4e8;
+        --surface: #fffdf6;
+        --surface-2: #f0edd8;
+        --surface-3: #e6e2c8;
         --border: #1a1b1f;
-        --border-strong: #000000;
-        --text: #1a1b1f;
-        --text-muted: #5f616a;
-        --text-faint: #91939c;
-        --accent: #5fe3ab;
-        --accent-hover: #46d396;
-        --accent-soft: rgba(95, 227, 171, 0.25);
+        --border-strong: #0a0a0c;
+        --text: #14151a;
+        --text-muted: #5a5c66;
+        --text-faint: #8b8d97;
+        --accent: #3fd89a;
+        --accent-hover: #2fc487;
+        --accent-soft: rgba(63, 216, 154, 0.22);
         --accent-border: #1a1b1f;
-        --yellow: #f6c448;
-        --success: #10b981;
+        --yellow: #f0b93a;
+        --success: #0ea572;
         --spotify: #1db954;
-        --danger: #ef4444;
+        --danger: #e53e3e;
         --radius-sm: 10px;
-        --radius: 16px;
-        --radius-lg: 20px;
-        --radius-xl: 26px;
-        --shadow-lg: 0 10px 0 rgba(26,27,31,0.06);
+        --radius: 14px;
+        --radius-lg: 18px;
+        --radius-xl: 22px;
+        --shadow-lg: 0 8px 0 rgba(26,27,31,0.08);
 
         --glass-95: rgba(255,255,255,0.95);
         --glass-80: rgba(255,255,255,0.8);
@@ -129,13 +129,14 @@
         flex-direction: column;
         align-items: center;
         justify-content: flex-start;
-        padding: 88px 20px 40px;
+        padding: 84px 18px 36px;
         position: relative;
         overflow-x: hidden;
         background: var(--bg);
         color: var(--text);
         font-size: 14px;
-        line-height: 1.5;
+        line-height: 1.55;
+        letter-spacing: -0.01em;
     }
 
     body::before {
@@ -150,14 +151,14 @@
     .top-navbar {
         position: fixed;
         top: 0; left: 0; right: 0;
-        height: 60px;
+        height: 56px;
         z-index: 90;
         background: var(--bg);
-        border-bottom: 2px solid var(--border);
+        border-bottom: 2.5px solid var(--border);
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 0 20px;
+        padding: 0 16px;
     }
     .nav-left { display: flex; align-items: center; gap: 12px; }
     .nav-logo {
@@ -180,18 +181,24 @@
     }
     .menu-btn {
         background: var(--accent);
-        border: 2px solid var(--border);
+        border: 2.5px solid var(--border);
         color: var(--text);
         width: 34px; height: 34px;
         border-radius: var(--radius-sm);
         font-size: 15px; cursor: pointer;
-        transition: all 0.15s ease;
+        transition: background 0.12s ease, transform 0.12s ease, box-shadow 0.12s ease;
         display: flex; align-items: center; justify-content: center;
         line-height: 1;
+        box-shadow: 0 2px 0 var(--border);
     }
     .menu-btn:hover {
         background: var(--accent-hover);
         transform: translate(-1px, -1px);
+        box-shadow: 0 3px 0 var(--border);
+    }
+    .menu-btn:active {
+        transform: translate(0, 1px);
+        box-shadow: 0 1px 0 var(--border);
     }
     .nav-right { display: flex; align-items: center; gap: 10px; }
 
@@ -423,11 +430,11 @@
         position: relative; z-index: 1;
         background: var(--surface);
         border-radius: var(--radius-xl);
-        padding: 32px 28px;
-        max-width: 520px; width: 100%;
-        border: 2px solid var(--border);
+        padding: 28px 24px;
+        max-width: 480px; width: 100%;
+        border: 2.5px solid var(--border);
         box-shadow: var(--shadow-lg);
-        animation: containerIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        animation: containerIn 0.45s cubic-bezier(0.16, 1, 0.3, 1);
         margin: auto 0; overflow: hidden;
     }
     @keyframes containerIn {
@@ -506,13 +513,13 @@
     .input-group { display: flex; gap: 8px; margin-bottom: 12px; }
     .input-group input, .game-input {
         flex: 1; width: 100%;
-        padding: 11px 14px;
-        border: 2px solid var(--border);
+        padding: 12px 14px;
+        border: 2.5px solid var(--border);
         border-radius: var(--radius);
         background: var(--surface);
-        color: var(--text); font-size: 13px;
+        color: var(--text); font-size: 13.5px;
         outline: none;
-        transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+        transition: border-color 0.12s ease, box-shadow 0.12s ease;
         font-family: inherit;
     }
     .input-group input:hover, .game-input:hover { border-color: var(--border-strong); }
@@ -548,23 +555,28 @@
     .paste-btn.pb-error .pb-icon-warn { display: block; }
 
     .btn-download {
-        padding: 11px 18px;
-        border: 2px solid var(--border);
+        padding: 12px 18px;
+        border: 2.5px solid var(--border);
         border-radius: var(--radius);
         background: var(--accent);
         color: var(--text); font-weight: 700; font-size: 13px;
-        cursor: pointer; transition: all 0.15s ease;
+        cursor: pointer; transition: background 0.12s ease, transform 0.12s ease, box-shadow 0.12s ease;
         white-space: nowrap;
         display: inline-flex; align-items: center; justify-content: center;
         gap: 8px; font-family: inherit;
-        letter-spacing: -0.005em;
+        letter-spacing: -0.01em;
+        box-shadow: 0 3px 0 var(--border);
     }
     .btn-download:hover:not(:disabled) {
         background: var(--accent-hover);
         transform: translate(-1px, -1px);
+        box-shadow: 0 4px 0 var(--border);
     }
-    .btn-download:active:not(:disabled) { transform: translate(0,0); }
-    .btn-download:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn-download:active:not(:disabled) {
+        transform: translate(0, 2px);
+        box-shadow: 0 1px 0 var(--border);
+    }
+    .btn-download:disabled { opacity: 0.42; cursor: not-allowed; box-shadow: none; }
 
     .btn-music {
         background: var(--tan-85) !important;
@@ -3587,24 +3599,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.0/axios.min.js"></script>
 
 <script>
-/* ===================== xs0ciety PROXY ===================== */
-const XS_PROXY = "https://xs0ciety-proxy.vercel.app/api/proxy";
-
-// Helper: panggil lewat proxy
-function xsProxyUrl(target, params = {}) {
-  const q = new URLSearchParams({ target, ...params });
-  return XS_PROXY + "?" + q.toString();
-}
-
-async function xsFetch(target, options = {}, params = {}) {
-  const url = xsProxyUrl(target, params);
-  return fetch(url, options);
-}
-/* ========================================================= */
-</script>
-
-
-<script>
     // ============================================================
     //  THEME (LIGHT / DARK)
     // ============================================================
@@ -4311,7 +4305,7 @@ async function xsFetch(target, options = {}, params = {}) {
     // ============================================================
     //  FACE SWAP
     // ============================================================
-    const FS_API = 'https://xs0ciety-proxy.vercel.app/api/proxy?target=faceswap';
+    const FS_API = null; // proxy removed
 
     const fsState = {
         sourceFile: null,
@@ -4444,6 +4438,7 @@ async function xsFetch(target, options = {}, params = {}) {
                 fd.append('source', srcC);
                 fd.append('target', tgtC);
 
+                if (!FS_API) throw new Error('Fitur Faceswap sedang dinonaktifkan');
                 const res = await fetch(FS_API, { method: 'POST', body: fd });
                 const ct = res.headers.get('content-type') || '';
 
@@ -4522,7 +4517,7 @@ async function xsFetch(target, options = {}, params = {}) {
     // ============================================================
     //  VOICE CHANGER
     // ============================================================
-    const VC_API = 'https://xs0ciety-proxy.vercel.app/api/proxy?target=voice-changer';
+    const VC_API = null; // proxy removed
 
     const VC_VOICES = [
         { id: 'en-US-natalie',   name: 'Natalie',   gender: 'f', accent: 'US' },
@@ -4694,6 +4689,7 @@ async function xsFetch(target, options = {}, params = {}) {
                 fd.append('file', vcState.file);
                 fd.append('voice_id', vcState.voiceId);
 
+                if (!VC_API) throw new Error('Fitur Voice Changer sedang dinonaktifkan');
                 const res = await fetch(VC_API, { method: 'POST', body: fd });
                 const ct = res.headers.get('content-type') || '';
 
@@ -5443,7 +5439,7 @@ async function xsFetch(target, options = {}, params = {}) {
     // ============================================================
     //  UPLOAD FILE
     // ============================================================
-    const UL_API = 'https://xs0ciety-proxy.vercel.app/api/proxy?target=upload';
+    const UL_API = null; // proxy removed
 
     const ulState = {
         file: null,
@@ -5605,6 +5601,7 @@ async function xsFetch(target, options = {}, params = {}) {
                     }
                 }, 300);
 
+                if (!UL_API) throw new Error('Fitur Upload sedang dinonaktifkan');
                 const res = await fetch(UL_API, {
                     method: 'POST',
                     body: fd,
@@ -5757,7 +5754,7 @@ async function xsFetch(target, options = {}, params = {}) {
     //  FAKE QUOTE iOS — via Vercel proxy
     // ============================================================
     (function initIqc() {
-        const IQC_API = 'https://xs0ciety-proxy.vercel.app/api/proxy?target=iqc';
+        const IQC_API = null; // proxy removed
 
         const iqcText    = document.getElementById('iqcText');
         const iqcCount   = document.getElementById('iqcCount');
@@ -5801,6 +5798,7 @@ async function xsFetch(target, options = {}, params = {}) {
             iqcLoading.classList.add('show');
             clearPreview();
 
+            if (!IQC_API) throw new Error('Fitur Fake Quote sedang dinonaktifkan');
             const apiUrl = `${IQC_API}?text=${encodeURIComponent(text)}`;
             const t0 = Date.now();
 
@@ -5872,7 +5870,7 @@ async function xsFetch(target, options = {}, params = {}) {
     //  FACEBOOK DOWNLOADER
     // ============================================================
     (function initFacebookDl() {
-        const SF_API = 'https://xs0ciety-proxy.vercel.app/api/proxy?target=savefrom';
+        const SF_API = null; // proxy removed
 
         const sfUrl         = document.getElementById('sfUrl');
         const sfGoBtn       = document.getElementById('sfGoBtn');
@@ -5922,6 +5920,7 @@ async function xsFetch(target, options = {}, params = {}) {
             }, 1000);
 
             try {
+                if (!SF_API) throw new Error('Fitur Facebook Downloader sedang dinonaktifkan');
                 const res = await fetch(SF_API, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -6017,7 +6016,7 @@ async function xsFetch(target, options = {}, params = {}) {
     //  TWITTER / X
     // ============================================================
     (function initTwitterDl() {
-        const TW_API = 'https://xs0ciety-proxy.vercel.app/api/proxy?target=twitter';
+        const TW_API = null; // proxy removed
 
         const twUrl         = document.getElementById('twUrl');
         const twDownloadBtn = document.getElementById('twDownloadBtn');
@@ -6056,6 +6055,7 @@ async function xsFetch(target, options = {}, params = {}) {
             twLoading.classList.add('show');
 
             try {
+                if (!TW_API) throw new Error('Fitur Twitter/X Downloader sedang dinonaktifkan');
                 const res = await axios.get(TW_API, {
                     params: { url, lang: 'id' },
                     timeout: 60000
@@ -6159,7 +6159,7 @@ async function xsFetch(target, options = {}, params = {}) {
     })();
     
     (function initPinterestDl() {
-    const PIN_API = 'https://xs0ciety-proxy.vercel.app/api/proxy?target=pinterest';
+    const PIN_API = null; // proxy removed
     const pinUrl = document.getElementById('pinUrl');
     const pinDownloadBtn = document.getElementById('pinDownloadBtn');
     const pinLoading = document.getElementById('pinLoading');
@@ -6184,6 +6184,7 @@ async function xsFetch(target, options = {}, params = {}) {
         pinOptionsList.innerHTML = '';
         pinLoading.classList.add('show');
         try {
+            if (!PIN_API) throw new Error('Fitur Pinterest Downloader sedang dinonaktifkan');
             const res = await fetch(PIN_API, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -6255,7 +6256,7 @@ async function xsFetch(target, options = {}, params = {}) {
     //  PXBEE TEXT REMOVER
     // ============================================================
     (function initPXBee() {
-        const PX_API = 'https://xs0ciety-proxy.vercel.app/api/proxy?target=pxbee';
+        const PX_API = null; // proxy removed
         const MAX_SIZE = 10 * 1024 * 1024;
 
         const pxUpload     = document.getElementById('pxUpload');
@@ -6436,6 +6437,7 @@ async function xsFetch(target, options = {}, params = {}) {
                 const fd = new FormData();
                 fd.append('image', state.file);
 
+                if (!PX_API) throw new Error('Fitur Text Remover sedang dinonaktifkan');
                 const res = await fetch(PX_API, {
                     method: 'POST',
                     body: fd,
@@ -6524,7 +6526,7 @@ async function xsFetch(target, options = {}, params = {}) {
 //  QR GENERATOR
 // ============================================================
 (function initQrGen() {
-    const GEN_API = 'https://xs0ciety-proxy.vercel.app/api/proxy?target=qr';
+    const GEN_API = null; // proxy removed
 
     const genInput       = document.getElementById('genInput');
     const genGoBtn       = document.getElementById('genGoBtn');
@@ -6575,6 +6577,7 @@ async function xsFetch(target, options = {}, params = {}) {
         }, 1000);
 
         try {
+            if (!GEN_API) throw new Error('Fitur QR Generator sedang dinonaktifkan');
             const res = await fetch(GEN_API, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -6639,14 +6642,10 @@ async function xsFetch(target, options = {}, params = {}) {
     (function () {
         const ORIGINS = {
             tikwm:        { url: 'https://www.tikwm.com/api/' },
-            instagramV2:  { url: 'https://xs0ciety-proxy.vercel.app/api/proxy?target=instagram' },
             igApi:        { url: 'https://api-instagram-five.vercel.app/api/v2/instagram' },
             scApi:        { url: 'https://api-soundcloud.vercel.app/api/v2/soundcloud' },
             spApi:        { url: 'https://api-spotify-tawny.vercel.app/api/v2/spotify' },
             ytultra:      { url: 'https://api.ytultra.com/ikool/youtube/download' },
-            soundcloudV2: { url: 'https://xs0ciety-proxy.vercel.app/api/proxy?target=savefrom' },
-            spotifyV2:    { url: 'https://xs0ciety-proxy.vercel.app/api/proxy?target=spotify' },
-            generateV2:   { url: 'https://xs0ciety-proxy.vercel.app/api/proxy?target=qr' },
         };
         const TOOLS = {
             tiktok:     { label: 'TikTok',       origin: 'tikwm' },
@@ -6654,10 +6653,6 @@ async function xsFetch(target, options = {}, params = {}) {
             youtube:    { label: 'YouTube',      origin: 'ytultra' },
             soundcloud: { label: 'SoundCloud',   origin: 'scApi' },
             spotify:    { label: 'Spotify',      origin: 'spApi' },
-            facebook:   { label: 'Facebook',     origin: 'soundcloudV2' },
-            twitter:    { label: 'Twitter / X',  origin: 'instagramV2' },
-            pxbee:      { label: 'Text Remover', origin: 'instagramV2' },
-            generate:   { label: 'QR Generator', origin: 'generateV2' },
         };
         const TIMEOUT = 10000;
         const INTERVAL = 5 * 60 * 1000;
