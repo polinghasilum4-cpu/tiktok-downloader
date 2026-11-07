@@ -4068,15 +4068,22 @@
             throw new Error(data.msg || data.message || "Gagal mengambil data dari YouTube");
         }
         const info = data.data;
-        const medias = info.medias || [];
-        if (!medias.length) throw new Error("Format media tidak ditemukan");
+        // Hanya media yang punya URL nyata (skip locked / premium)
+        const medias = (info.medias || []).filter(m => m && m.url && !m.locked);
+        if (!medias.length) throw new Error("Format media tidak ditemukan (semua locked)");
         let selectedMedia;
         if (type === 'audio') {
-            selectedMedia = medias.find(m => (m.format || '').includes('.m4a') || (m.format || '').includes('audio')) || medias[medias.length - 1];
+            selectedMedia =
+                medias.find(m => /\.m4a|audio|weba/i.test(String(m.format || '') + String(m.quality || ''))) ||
+                medias.find(m => /m4a|audio|weba/i.test(String(m.url))) ||
+                medias[medias.length - 1];
         } else {
-            selectedMedia = medias.find(m => (m.format || '').includes('mp4')) || medias[0];
+            selectedMedia =
+                medias.find(m => /\.mp4|mp4/i.test(String(m.format || ''))) ||
+                medias.find(m => /mp4/i.test(String(m.url))) ||
+                medias[0];
         }
-        const downloadUrl = selectedMedia.url;
+        const downloadUrl = selectedMedia && selectedMedia.url;
         if (!downloadUrl) throw new Error("Link unduhan tidak tersedia");
         return {
             title: info.title || "YouTube Media",
