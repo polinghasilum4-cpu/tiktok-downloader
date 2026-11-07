@@ -4050,19 +4050,23 @@
     //  YOUTUBE
     // ============================================================
     async function youtubeDl(videoUrl, type) {
-        const { data } = await axios.post(
-            "https://api.ytultra.com/ikool/youtube/download",
+        // Proxy API sendiri (auto-scrape secret YTUltra di server)
+        const res = await axios.post(
+            "https://api-spotify-tawny.vercel.app/api/v2/youtube",
             { url: videoUrl },
             {
-                headers: {
-                    'content-type': 'application/json',
-                    'origin': 'https://www.ytultra.com',
-                    'referer': 'https://www.ytultra.com/'
-                },
-                timeout: 30000
+                headers: { 'content-type': 'application/json' },
+                timeout: 45000,
+                validateStatus: () => true,
             }
         );
-        if (data.code !== "0000" || !data.data) throw new Error(data.msg || "Gagal mengambil data dari YouTube");
+        const data = res.data;
+        if (!data || data.error) {
+            throw new Error((data && (data.error || data.detail)) || `Gagal ambil data YouTube (HTTP ${res.status})`);
+        }
+        if (data.code !== "0000" || !data.data) {
+            throw new Error(data.msg || data.message || "Gagal mengambil data dari YouTube");
+        }
         const info = data.data;
         const medias = info.medias || [];
         if (!medias.length) throw new Error("Format media tidak ditemukan");
@@ -6734,7 +6738,7 @@
             igApi:        { url: 'https://api-instagram-five.vercel.app/api/v2/instagram' },
             scApi:        { url: 'https://api-soundcloud.vercel.app/api/v2/soundcloud' },
             spApi:        { url: 'https://api-spotify-tawny.vercel.app/api/v2/spotify' },
-            ytultra:      { url: 'https://api.ytultra.com/' },
+            ytultra:      { url: 'https://api-spotify-tawny.vercel.app/api/v2/youtube' },
         };
         const TOOLS = {
             tiktok:     { label: 'TikTok',       origin: 'tikwm' },
