@@ -1765,15 +1765,34 @@
         border: 1px solid currentColor; opacity: 0.2;
     }
     .db-stat-circle svg { width: 26px; height: 26px; }
-    .db-stat.green .db-stat-circle { color: #10b981; box-shadow: 0 0 24px rgba(16,185,129,0.35), inset 0 0 20px rgba(16,185,129,0.15); }
-    .db-stat.blue .db-stat-circle { color: #3b82f6; box-shadow: 0 0 24px rgba(59,130,246,0.35), inset 0 0 20px rgba(59,130,246,0.15); }
-    .db-stat.orange .db-stat-circle { color: #f59e0b; box-shadow: 0 0 24px rgba(245,158,11,0.35), inset 0 0 20px rgba(245,158,11,0.15); }
+    .db-stat.green .db-stat-circle { color: #10b981; }
+    .db-stat.blue .db-stat-circle { color: #3b82f6; }
+    .db-stat.orange .db-stat-circle { color: #f59e0b; }
     .db-stat-num {
         font-size: 22px; font-weight: 700; color: var(--text);
         font-family: 'SF Mono', monospace; line-height: 1;
     }
     .db-stat-num.date { font-size: 14px; }
     .db-stat-label { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+
+    .tool-back {
+        display: inline-flex; align-items: center; gap: 6px;
+        margin: 0 0 14px; padding: 7px 12px 7px 8px;
+        background: transparent; color: var(--text);
+        border: 2px solid var(--border); border-radius: var(--radius-sm);
+        font: 600 13px/1 inherit; font-family: inherit; cursor: pointer;
+        min-height: 36px;
+    }
+    .tool-back:hover { background: var(--tint-06); }
+    .tool-back:focus-visible { outline: 2px solid var(--accent-hover); outline-offset: 2px; }
+    .tool-back svg { width: 16px; height: 16px; }
+    .db-scope { font-size: 11px; color: var(--text-muted); text-align: center; margin: -6px 0 14px; position: relative; z-index: 1; }
+    .db-stat-num.date { line-height: 1.25; }
+    .db-time { margin-left: auto; text-align: right; flex-shrink: 0; }
+    .db-time-clock { font: 700 22px/1 'SF Mono', ui-monospace, monospace; color: var(--text); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+    .db-time-clock span { color: var(--text-faint); }
+    .db-time-date { font-size: 11px; color: var(--text-muted); margin-top: 5px; white-space: nowrap; }
 
     .db-live {
         display: inline-flex; align-items: center; gap: 7px;
@@ -2585,14 +2604,11 @@
                         <div class="db-user-name">xs0ciety HUB</div>
                         <span class="db-user-role">OWNER</span>
                     </div>
-                    <div class="db-badge-pulse">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
-                            <rect x="3" y="4" width="18" height="18" rx="2"/>
-                            <line x1="16" y1="2" x2="16" y2="6"/>
-                            <line x1="8" y1="2" x2="8" y2="6"/>
-                            <line x1="3" y1="10" x2="21" y2="10"/>
-                        </svg>
+                    <div class="db-time" role="timer" aria-label="Waktu sekarang">
+                        <div class="db-time-clock" id="calClock">--:--</div>
+                        <div class="db-time-date" id="calDate"></div>
                     </div>
+                </div>
                 </div>
 
                 <div class="db-title-bar">
@@ -2634,11 +2650,10 @@
                             </svg>
                         </div>
                         <div class="db-stat-num date" id="dbExpiry">—</div>
-                        <div class="db-stat-label">Kalender</div>
+                        <div class="db-stat-label">Tanggal Hari Ini</div>
                     </div>
                 </div>
 
-                <div class="db-live">Live</div>
             </div>
 
             <div>
@@ -3621,15 +3636,39 @@
         document.getElementById('sidebar').classList.remove('open');
         document.getElementById('overlay').classList.remove('show');
     }
-    function switchTool(tool) {
+    let navIdx = 0;
+    function activateTool(tool) {
         document.querySelectorAll('.tool-content').forEach(el => el.classList.remove('active'));
         document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
         const target = document.getElementById('tool-' + tool);
         if (target) target.classList.add('active');
         const menu = document.querySelector(`.menu-item[data-tool="${tool}"]`);
         if (menu) menu.classList.add('active');
+        window.scrollTo(0, 0);
+    }
+    function switchTool(tool) {
+        const cur = document.querySelector('.tool-content.active');
+        if (cur && cur.id === 'tool-' + tool) { closeSidebar(); return; }
+        activateTool(tool);
+        try { history.pushState({ tool, idx: ++navIdx }, ''); } catch (e) {}
         closeSidebar();
     }
+    function goBack() {
+        if (navIdx > 0) history.back(); else activateTool('dashboard');
+    }
+    window.addEventListener('popstate', (e) => {
+        const st = e.state;
+        navIdx = st && typeof st.idx === 'number' ? st.idx : 0;
+        activateTool(st && st.tool ? st.tool : 'dashboard');
+    });
+    try { history.replaceState({ tool: 'dashboard', idx: 0 }, ''); } catch (e) {}
+    document.querySelectorAll('.tool-content:not(#tool-dashboard)').forEach(sec => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'tool-back'; b.setAttribute('aria-label', 'Kembali');
+        b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>Kembali';
+        b.addEventListener('click', goBack);
+        sec.insertBefore(b, sec.firstChild);
+    });
 
     async function forceDownload(url, filename) {
         if (!url || url === '#') return;
@@ -5692,45 +5731,79 @@
     (function initDashboard() {
         const onlineEl = document.getElementById('dbOnline');
         const connEl = document.getElementById('dbConnections');
-        const expiryEl = document.getElementById('dbExpiry');
-
+        const dateEl = document.getElementById('dbExpiry');
         if (!onlineEl) return;
 
-        function countUp(el, target, duration = 1200) {
-            const t0 = performance.now();
-            const start = parseInt(el.textContent) || 0;
-            function step(now) {
-                const p = Math.min((now - t0) / duration, 1);
-                const eased = 1 - Math.pow(1 - p, 3);
-                el.textContent = Math.floor(start + (target - start) * eased);
-                if (p < 1) requestAnimationFrame(step);
-            }
-            requestAnimationFrame(step);
+        // ---------- Presence (heartbeat) ----------
+        const HB = 10000, TTL = 25000;
+        const store = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) {} return null; };
+        const uid = () => (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2) + Date.now().toString(36));
+        let vid = store('xs0ciety-vid'); if (!vid) { vid = uid(); store('xs0ciety-vid', vid); }
+        const tabId = uid();
+        const peers = new Map();            // mode lokal: tab lain di browser ini
+        let serverOk = false;
+        const ch = ('BroadcastChannel' in window) ? new BroadcastChannel('xs0ciety-presence') : null;
+
+        function show(users, conns, scope) {
+            onlineEl.textContent = users == null ? '—' : users;
+            connEl.textContent = conns == null ? '—' : conns;
         }
+        function localCounts() {
+            const now = Date.now();
+            peers.forEach((v, k) => { if (now - v.ts > TTL) peers.delete(k); });
+            peers.set(tabId, { vid, ts: now });
+            return { users: new Set([...peers.values()].map(p => p.vid)).size, conns: peers.size };
+        }
+        function render() {
+            if (!navigator.onLine) return show(null, null, 'Offline — tidak ada koneksi internet');
+            if (serverOk) return;
+            const c = localCounts();
+            show(c.users, c.conns, 'Cakupan: browser ini saja (server presence belum tersedia)');
+        }
+        if (ch) ch.onmessage = (e) => {
+            const m = e.data || {};
+            if (m.type === 'bye') peers.delete(m.tabId); else peers.set(m.tabId, { vid: m.vid, ts: Date.now() });
+            render();
+        };
+        async function beat() {
+            if (ch) ch.postMessage({ type: 'hb', tabId, vid });
+            if (!navigator.onLine) return render();
+            try {
+                const r = await fetch('/api/presence', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, cache: 'no-store',
+                    body: JSON.stringify({ vid, tabId })
+                });
+                const d = await r.json();
+                if (!r.ok || !Number.isInteger(d.users) || !Number.isInteger(d.connections)) throw new Error('bad');
+                serverOk = true;
+                show(d.users, d.connections, 'Data global dari server');
+            } catch (e) { serverOk = false; render(); }
+        }
+        function bye() {
+            if (ch) ch.postMessage({ type: 'bye', tabId });
+            if (serverOk && navigator.sendBeacon) navigator.sendBeacon('/api/presence', new Blob([JSON.stringify({ vid, tabId, leave: true })], { type: 'application/json' }));
+        }
+        window.addEventListener('pagehide', bye);
+        window.addEventListener('online', beat);
+        window.addEventListener('offline', render);
+        document.addEventListener('visibilitychange', () => { if (!document.hidden) beat(); });
+        beat(); setInterval(beat, HB); setInterval(render, 5000);
 
-        const baseOnline = Math.floor(Math.random() * 40) + 15;
-        const baseConn = Math.floor(Math.random() * 80) + 30;
-
-        countUp(onlineEl, baseOnline);
-        countUp(connEl, baseConn);
-
-        const expiry = new Date();
-        expiry.setDate(expiry.getDate() + 7);
-        expiryEl.textContent = expiry.toISOString().slice(0, 10);
-
-        setInterval(() => {
-            const delta = Math.floor(Math.random() * 7) - 3;
-            const current = parseInt(onlineEl.textContent) || baseOnline;
-            const next = Math.max(1, current + delta);
-            countUp(onlineEl, next, 800);
-        }, 5000);
-
-        setInterval(() => {
-            const delta = Math.floor(Math.random() * 15) - 7;
-            const current = parseInt(connEl.textContent) || baseConn;
-            const next = Math.max(1, current + delta);
-            countUp(connEl, next, 800);
-        }, 8000);
+        // ---------- Jam & tanggal (mengikuti perangkat) ----------
+        const clockEl = document.getElementById('calClock'), cdateEl = document.getElementById('calDate');
+        let lastDay = '';
+        function tick() {
+            const now = new Date();
+            const p = n => String(n).padStart(2, '0');
+            clockEl.innerHTML = `${p(now.getHours())}<span>:</span>${p(now.getMinutes())}`;
+            const key = now.toDateString();
+            if (key !== lastDay) {
+                lastDay = key;
+                cdateEl.textContent = now.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+                dateEl.textContent = now.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+            }
+        }
+        tick(); setInterval(tick, 1000);
     })();
 
     // ============================================================
